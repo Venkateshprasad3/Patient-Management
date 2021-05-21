@@ -97,7 +97,39 @@ public:
    }
  	
  }
- 
+
+
+void searchBg()
+ {
+ 	int flag=0;
+ 	char i[100];
+		cout<<"Enter Blood group:";
+		cin>>i;
+		
+   ifstream file2;
+   file2.open("Input.txt",ios::in);
+   file2.seekg(0);
+   cout<<"         Patients Details";
+   cout<<endl;
+   file2.read((char*)&Emp_1,sizeof(Emp_1));
+	while(!file2.eof())
+   {
+   	
+   	if(strcmp(i,Emp_1.blood_group)==0)
+	{
+		flag=1;
+		Display();
+		   	
+	}
+	file2.read((char*)&Emp_1,sizeof(Emp_1));	
+   }
+   if(flag==0)
+   {
+   	cout<<"Sorry No patient With Blood Group "<<i;
+   }
+ 	
+ }
+  
  int findId()
 {
 	static int val;
@@ -175,7 +207,6 @@ int Patient::output_data()
    	
    	
 
-   
    	Display();
 	file2.read((char*)&Emp_1,sizeof(Emp_1));
  
@@ -208,7 +239,7 @@ int Patient::searchData()
 			searchName();
 			break;
 		case 3:
-		//	searchBg();
+			searchBg();
 			break;
 			
 	}
