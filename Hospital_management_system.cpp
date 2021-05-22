@@ -19,9 +19,22 @@ public:
     int output_data();
     int searchData();
     int editData();
-}Emp_1,object;
+    int deleteData(int);
+}Emp_1,object,it;
  
  
+ 
+ 
+ void Edit( )
+ {
+ 	
+ 	cout<<endl<<" Enter option to edit ";
+ 	cout<<
+ 	
+ 	
+ 	
+ 	
+ }
  void Display()
  {
  	cout<<endl;
@@ -44,7 +57,7 @@ public:
 		cin>>i;
 		
    ifstream file2;
-   file2.open("Input.txt",ios::in);
+   file2.open("Input.dat",ios::in);
    file2.seekg(0);
    cout<<"         Patients Details";
    cout<<endl;
@@ -75,7 +88,7 @@ public:
 		cin>>i;
 		
    ifstream file2;
-   file2.open("Input.txt",ios::in);
+   file2.open("Input.dat",ios::in);
    file2.seekg(0);
    cout<<"         Patients Details";
    cout<<endl;
@@ -107,7 +120,7 @@ void searchBg()
 		cin>>i;
 		
    ifstream file2;
-   file2.open("Input.txt",ios::in);
+   file2.open("Input.dat",ios::in);
    file2.seekg(0);
    cout<<"         Patients Details";
    cout<<endl;
@@ -134,7 +147,7 @@ void searchBg()
 {
 	static int val;
 	ifstream file2;
-   file2.open("Input.txt",ios::in);
+   file2.open("Input.dat",ios::in);
    file2.seekg(0);
     while(!file2.eof())
    {
@@ -159,7 +172,7 @@ int Patient::input()
     ofstream file_obj;
  
     
-    file_obj.open("Input.txt", ios::app);
+    file_obj.open("Input.dat", ios::app);
  
     // Object of class Patient to input data in file
     Patient obj;
@@ -195,12 +208,12 @@ int Patient::input()
 int Patient::output_data()
 {
     
-    ifstream file2;
-   file2.open("Input.txt",ios::in);
+	ifstream file2;
+   file2.open("Input.dat",ios::in);
    file2.seekg(0);
    cout<<"      Patient Details  ";
    cout<<endl;
-   int p_id=0;
+   
    file2.read((char*)&Emp_1,sizeof(Emp_1));
    while(!file2.eof())
    {
@@ -208,6 +221,7 @@ int Patient::output_data()
    	
 
    	Display();
+   	
 	file2.read((char*)&Emp_1,sizeof(Emp_1));
  
    }
@@ -215,6 +229,8 @@ cout<<endl<<endl;
    file2.close();
     return 0;
 }
+
+
  
  
  
@@ -254,13 +270,71 @@ int Patient::searchData()
  
  
  
- int Patient::editData()
+ 
+ 
+ int Patient::deleteData(int d)
 {
+int flag=0;
+
+ofstream file2;
+file2.open("new.dat",ios::app);
+fstream file;
+file.open("Input.dat",ios::in);
+file.read((char*)&Emp_1,sizeof(Emp_1));
+while(!file.eof())
+{
+	
+	if(d!=Emp_1.id || flag==1)
+	{
+		
+		file2.write((char*)&Emp_1,sizeof(Emp_1));
+			
+	}
+	else
+	{
+		flag=1;
+	}
+	file.read((char*)&Emp_1,sizeof(Emp_1));
+}
+file2.close();
+file.close();
+
+
+   
+
+remove("Input.dat");
+rename("new.dat","Input.dat");
+
 }
  
- 
- 
- 
+int Patient::editData()
+{
+	int i,pos;
+	cout<<"Enter id :";
+	cin>>i;
+	
+	fstream f;
+	f.open("Input.dat",ios::in | ios::out |ios::app);
+	
+	while(f.read((char*)&Emp_1,sizeof(Emp_1)))
+	{
+	
+	if(i==Emp_1.id)
+	{
+		Display();
+		Edit();
+		
+		
+		f.write((char*)&Emp_1,sizeof(Emp_1));
+		break;
+	}
+	
+	}
+	f.close();
+	deleteData(i);
+	
+	
+} 
 // Driver code
 int main()
 {
@@ -273,8 +347,8 @@ int main()
     cout<<endl<<"1. Add Patient information";
     cout<<endl<<"2. Display Patient details ";
     cout<<endl<<"3. Search details ";
-    cout<<endl<<"4. Update Patient details ";
-    cout<<endl<<"5.Exit";
+    cout<<endl<<"4. Delete details ";
+    cout<<endl<<"5.Edit Data";
     cin>>option;
  	switch(option)
  	{
@@ -288,12 +362,19 @@ int main()
  			object.searchData();
  			break;
  		case 4:
+ 			int d;
+ 			cout<<"Delete Id";
+			cin>>d;
+ 			object.deleteData(d);
+ 			break;
+ 		case 5:
  			object.editData();
  			break;
+ 			
  		
 		 	
 	}
-}while(option!=5);
+}while(option!=6);
  	
  	
     return 0;
