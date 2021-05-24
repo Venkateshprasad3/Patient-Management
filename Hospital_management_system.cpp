@@ -84,48 +84,48 @@ using namespace std;
 		{
 		public:
     
-    		char first_name[100];     //patient first Name
-    		char last_name[100];	 //patient last name
-    		int age;			 //patient age
-    		int department;		//department
+    		char first_name[100];     	//patient first Name
+    		char last_name[100];	 	//patient last name
+    		int age;	         	 //patient age
+    		int department;			//department
  		int id;				//Auto incremental Id
  		int is_in;			//in the hospital or discharged
- 		int blood_group;	//blood group id
- 		char date_time[100];//Admit date time
-    		char discharge_date[100];//discharge date time
+ 		int blood_group;		//blood group id
+ 		char date_time[100];		//Admit date time
+    		char discharge_date[100];	//discharge date time
     
     
-    		//constructor
-         	Patient()				
-       	 	{
+    
+    		Patient()				//constructor
+   		{
     		is_in=1;
     		strcpy(this->discharge_date," ");
-       	 	}
+		}
 	
 		//Setters
-	    	int setfName();
-	    	int setlName();
-	    	int setTime();
-	    	int setDept();
-	    	int setAge();
-	    	int setAll();
-	    	int setBloodgroup();
+		int setfName();
+		int setlName();
+		int setTime();
+		int setDept();
+		int setAge();
+		int setAll();
+		int setBloodgroup();
 		
 		//New Patient Details
 	    	int input();
 	    
-	    //Printer
+		 //Printer
 		int output_data(int);
 		int Display();
 		
 		//Search
 	    	int searchData(int);
 	    
-	    //Edit
+	    	//Edit
 	    	int editData();
 	    	int Edit();
 	    
-	    //Delete
+	    	//Delete
 	    	int deleteData(int);
 	    	int deleteDData(int);
 	    
@@ -133,15 +133,14 @@ using namespace std;
 	    	int patientLeaves();
 	    	int oldPatient();
 	    
-	    
 	}patient_object;
 
 
 	int findId()    //Auto Increment Id
 	{
-        	int max=0;
-	    ifstream file_object; //file pointer object 
-         	int val,val1;//val-max in first file val2-max in second file
+	    int max=0;
+            ifstream file_object; //file pointer object 
+    	    int val,val1;//val-max in first file val2-max in second file
 	    file_object.open("Active_patients.dat",ios::in);
 	    file_object.seekg(0);
 	    file_object.read((char*)&patient_object,sizeof(patient_object));
@@ -155,12 +154,12 @@ using namespace std;
 	   		file_object.read((char*)&patient_object,sizeof(patient_object));
 	   		
 	    }
-	   file_object.close();
+	   	file_object.close();
 	   
 	   
 	   
 	     file_object.open("Discharged_patients.dat",ios::in);
-	     file_object.seekg(0);
+	   	 file_object.seekg(0);
 	     file_object.read((char*)&patient_object,sizeof(patient_object));
 	     while(!file_object.eof())
 	     {
@@ -178,169 +177,71 @@ using namespace std;
 	}
 	
 	
-	
-	//New Patient 
-	int Patient::input()
+	//Setters Definition
+	int Patient::setfName()
 	{
-			
-		int val=findId();
-	    time_t now = time(0); 
-	    ofstream file_obj;
-	  
-	    file_obj.open("Active_patients.dat",ios::out |  ios::app);
+		char first[100];
+		cout<<"Enter First Name:";
+		cin>>first;
+		strcpy(this->first_name,first);	
+	}
 	
-	   
-	   
-	    char first_name[100];
-	    char last_name[100];
-	    int blood_group;
-	    int age;
-	    int department;
-	    cout<<endl<<"Enter Patients First Name:  ";
-	    cin>>first_name;
-	    strcpy(this->first_name,first_name );
-	    cout<<endl<<"Enter Patients Last Name:  ";
-	    cin>>last_name;
-	    strcpy(this->last_name,last_name);
-	    setEmail();
-	    setMobileNumber();
-	    setState();
-	    setCity();
-	    setAddress();
-	       
-	    cout<<endl<<"Enter Patients age:  ";
-	    cin>>age;
-	    blood_group=blood();
-	 	department=dept();
-	 	this->blood_group=blood_group;
-	 	this->department=department;
-	 	strcpy(this->date_time,ctime(&now) );
-	   
-	    this->age = age;
-	    this->is_in=1;
-	    this->id=val+1;
-	    file_obj.write((char*)&patient_object, sizeof(patient_object));
-	    
-	    return 0;
+	int Patient::setlName()
+	{
+		char last[100];
+		cout<<"Enter Last Name:";
+		cin>>last;
+		strcpy(this->last_name,last);
+	}
+	
+	int Patient::setBloodgroup()
+	{
+		int blood_group;
+		blood_group=blood();
+		this->blood_group=blood_group;
+		
+	}
+	
+	int Patient::setAge()
+	{
+		int age;
+		cout<<"Enter age :";
+		cin>>age;;
+		this->age=age;
+		
+	}
+	
+	int Patient::setTime()
+	{ 	
+	 	time_t now = time(0);
+	 	strcpy(this->date_time,ctime(&now) );	 	
+        }
+	 
+	int Patient::setDept()
+	{ 	
+	 	int d=dept();
+	 	this->department=d; 		
+	}
+	
+	int Patient::setAll()
+	{
+		this->setfName();
+		this->setlName();
+		this->setAge();
+		this->setBloodgroup();
+		
 	}
 	
 	
 	
-	 
-	 
-	//Edit Functions
-	 int Patient :: Edit()
-	 {
-	 	int op;
-	 	do{
-	 	cout<<endl<<" Enter option "<<endl;
-	 	cout<<"1. First Name"<<endl;
-	 	cout<<"2. Last Name"<<endl;
-	 	cout<<"3. Blood group"<<endl;
-	 	cout<<"4. Age"<<endl;
-	 	cout<<"5. Contact details"<<endl;
-	 	cout<<"6. All"<<endl;
-	 	cout<<"7. Exit";
-	 		
-	 	cin>>op;
-	 		switch(op)
-	 	{
-	 		case 1:
-			setfName();
-			break;
-			
-			case 2:
-			setlName();
-			break;
-			
-			case 3:
-			setBloodgroup();
-			break;
-			
-			case 4:
-			setAge();
-			break;
-				
-			case 5:
-				setEmail();
-			setMobileNumber();
-			
-			setState();
-			setCity();
-			setAddress();
-			break;
-			
-				
-			case 6:
-			setAll();
-			break;
-			
-			
-		}
-	 }while(op!=7);
-	 
-	}
-	 	
-		
-	 //Display function	
-	 int Patient:: Display()
-	 {
-	 	cout<<"________________________________________________________________________";
-	 	cout<<endl<<"---------------------------------------------------------";
-	   	cout<<endl<<"     	  Patient Details\n";
-	   	cout<<"---------------------------------------------------------";
-	 	cout<<endl<<"\tPatient ID: "<<this->id;
-	   	cout<<endl<<"\tPatient Name: "<<this->first_name<<" "<<this->last_name;
-	   	cout<<endl<<"\tPatient age: "<<this->age;
-	   	cout<<endl<<"\tPatients Blood Group: ";
-	  	bg_finder(this->blood_group);
-	  	
-	  	cout<<endl<<"\tPurpose of Visit: ";
-	  	p_finder(this->department);
-		
-	  
-	   cout<<endl<<"\tDate and Time of Arrival: "<<this->date_time;
-	
-	   
-	   cout<<"\tPresent Status: ";
-	   
-	   if(this->is_in==1){
-	   	cout<<"In the Hospital";
-	   }
-	   else
-	   {
-	   	cout<<"Discharged";
-	   cout<<endl<<"\tDate and Time of Discharge: "<<this->discharge_date;
-	   }
-	   	cout<<endl<<"---------------------------------------------------------";
-	   	cout<<endl<<"       		 Contact Details\n";
-	   	cout<<"---------------------------------------------------------";
-	    cout<<endl<<"\tMobile Number: "<<this->mobile_number;
-	   	cout<<endl<<"\tEmail: "<<this->mail_id;
-	   	cout<<endl<<"\tAddress: "<<this->address;
-	    cout<<endl<<"\tState : "<<this->state;
-	    cout<<endl<<"\tCity : "<<this->city;
-	    cout<<endl<<"--------------------------------------------------------";
-	   
-	   cout<<"\n________________________________________________________________________";
-	   	
-	   cout<<endl;
-	   
-	   cout<<endl;
-	   return 0;
-	 }
-	 
-	 
-	 
-	 
-	 
+	//Searchers
 	 //Search using Id
 	void searchId(int option)
 	{
 	 	int flag=0;
-	 	int i;
-			cout<<"Enter Id :";
-			cin>>i;
+	 	int input;
+		cout<<"Enter Id :";
+		cin>>input;
 		if(option ==1 || option ==3)
 		{
 		
@@ -351,46 +252,44 @@ using namespace std;
 	   cout<<"         Patients Details";
 	   cout<<endl;
 	   file_object.read((char*)&patient_object,sizeof(patient_object));
-		while(!file_object.eof())
-	    {
+	       while(!file_object.eof())
+	       {
 	   	
-	   	if(patient_object.id==i)
+	   	if(patient_object.id==input)
 		{
 			patient_object.Display();
 			flag=1;
 			   	
 		}
 		file_object.read((char*)&patient_object,sizeof(patient_object));	
-	    }
+	   	}
 		}
 	
 	
 		if(option ==2 || option ==3)
 		{
-		
 				
-	   ifstream file_object;
-	   file_object.open("Discharged_patients.dat",ios::in);
-	   file_object.seekg(0);
-	   cout<<"         Patients Details";
-	   cout<<endl;
-	   file_object.read((char*)&patient_object,sizeof(patient_object));
-		while(!file_object.eof())
-	   {
-	   	
-	   		if(patient_object.id==i)
+		   ifstream file_object;
+	   	   file_object.open("Discharged_patients.dat",ios::in);
+	   	   file_object.seekg(0);
+	   	   cout<<"         Patients Details";
+	   	   cout<<endl;
+	   	   file_object.read((char*)&patient_object,sizeof(patient_object));
+		   while(!file_object.eof())
+		   {	
+	   		if(patient_object.id==input)
 			{
-			patient_object.Display();
-			flag=1;   	
+				patient_object.Display();
+				flag=1;	   	
 			}
-			file_object.read((char*)&patient_object,sizeof(patient_object));	
-	   	}
+		   file_object.read((char*)&patient_object,sizeof(patient_object));	
+	   	  }
 		}
 	
-	   if(flag==0)
-	   {
-	   	cout<<"Incorrect Patient Id: "<<i;
-	   }
+	   	if(flag==0)
+	   	{
+	   	cout<<"Incorrect Patient Id: "<<input;
+	   	}
 	 	
 	 }
 	 
@@ -401,26 +300,24 @@ using namespace std;
 	void searchfName(int option)
 	 {
 	 	int flag=0;
-	 	char i[100];
+	 	char input[100];
 	 	char temp[100];
-			cout<<"Enter Patients Name :";
-			cin>>i;
+		cout<<"Enter Patients Name :";
+		cin>>input;	
+    		cout<<"         Patients Details";
 			
-			
-		 cout<<"         Patients Details";
-			
-	   ifstream file_object;
-	   if(option == 1 ||option==3)
-	   {
+	   	ifstream file_object;
+	   	if(option == 1 ||option==3)
+	   	{
 	   
-	   file_object.open("Active_patients.dat",ios::in);
-	   file_object.seekg(0);
+	   	file_object.open("Active_patients.dat",ios::in);
+	 	  file_object.seekg(0);
 	  
-	   cout<<endl;
-	   file_object.read((char*)&patient_object,sizeof(patient_object));
+	   	cout<<endl;
+	   	file_object.read((char*)&patient_object,sizeof(patient_object));
 		while(!file_object.eof())
-	   {
-	   	strcpy(temp,upper_case(i));
+	   	{
+	   	strcpy(temp,upper_case(input));
 	   	strcpy(patient_object.first_name,upper_case(patient_object.first_name));
 	   	if(strcmp(temp,patient_object.first_name)==0)
 		{
@@ -429,9 +326,9 @@ using namespace std;
 			   	
 		}
 		file_object.read((char*)&patient_object,sizeof(patient_object));	
-	   }
-	   file_object.close();
-	   }
+	   	}
+	  	file_object.close();
+	   	}
 		
 		
 		if(option == 2 ||option ==3)
@@ -445,7 +342,7 @@ using namespace std;
 	   	file_object.read((char*)&patient_object,sizeof(patient_object));
 		while(!file_object.eof())
 		{
-	   		strcpy(temp,upper_case(i));
+	   		strcpy(temp,upper_case(input));
 	   		strcpy(patient_object.first_name,upper_case(patient_object.first_name));
 	   		if(strcmp(temp,patient_object.first_name)==0)
 			{
@@ -458,26 +355,15 @@ using namespace std;
 		}
 		
 		
-	   if(flag==0)
-	   {
-	   		cout<<"Sorry No patient with first name "<<i<<endl;
-	   }
+	   	if(flag==0)
+	   	{
+	   		cout<<"Sorry No patient with first name "<<input<<endl;
+	        }
 	 	
 	}
 	 
-	int Patient::setTime()
-	{ 	
-	 	time_t now = time(0);
-	 	strcpy(this->date_time,ctime(&now) );	 	
-    }
-	 
-	int Patient::setDept()
-	{ 	
-	 	int d=dept();
-	 	this->department=d; 		
-	}
-	 
-	 
+
+	 //search using lastname
 	void searchlName(int option)
 	{
 	 	int flag=0;
@@ -523,8 +409,8 @@ using namespace std;
 	   			strcpy(patient_object.last_name,upper_case(patient_object.last_name));
 	   			if(strcmp(temp,patient_object.last_name)==0)
 				{
-				flag=1;
-				patient_object.Display();
+					flag=1;
+					patient_object.Display();
 				}
 				file_object.read((char*)&patient_object,sizeof(patient_object));	
 	   		}
@@ -591,42 +477,166 @@ using namespace std;
 	   }
 	 	
 	 }
+	
+	
+	
+	
+	
+	
+	//New Patient 
+	int Patient::input()
+	{
+			
+		int val=findId();
+	    time_t now = time(0); 
+	    ofstream file_obj;
 	  
+	    file_obj.open("Active_patients.dat",ios::out |  ios::app);
+	
+	   
+	   
+	    char first_name[100];
+	    char last_name[100];
+	    int blood_group;
+	    int age;
+	    int department;
+	    cout<<endl<<"Enter Patients First Name:  ";
+	    cin>>first_name;
+	    strcpy(this->first_name,first_name );
+	    cout<<endl<<"Enter Patients Last Name:  ";
+	    cin>>last_name;
+	    strcpy(this->last_name,last_name);
+	    setEmail();
+	    setMobileNumber();
+	    setState();
+	    setCity();
+	    setAddress();
+	       
+	    cout<<endl<<"Enter Patients age:  ";
+	    cin>>age;
+	    blood_group=blood();
+	    department=dept();
+            this->blood_group=blood_group;
+            this->department=department;
+            strcpy(this->date_time,ctime(&now) );
+	   
+	    this->age = age;
+	    this->is_in=1;
+	    this->id=val+1;
+	    file_obj.write((char*)&patient_object, sizeof(patient_object));
+	    
+	    return 0;
+	}
+	
+	
+	
 	 
-	
-	int Patient::setfName()
-	{
-		char first[100];
-		cout<<"Enter First Name:";
-		cin>>first;
-		strcpy(this->first_name,first);	
+	 
+	//Edit Functions
+	 int Patient :: Edit()
+	 {
+	 	int op;
+	 	do{
+	 	cout<<endl<<" Enter option "<<endl;
+	 	cout<<"1. First Name"<<endl;
+	 	cout<<"2. Last Name"<<endl;
+	 	cout<<"3. Blood group"<<endl;
+	 	cout<<"4. Age"<<endl;
+	 	cout<<"5. Contact details"<<endl;
+	 	cout<<"6. All"<<endl;
+	 	cout<<"7. Exit";
+	 		
+	 	cin>>op;
+	 		switch(op)
+	 	{
+	 		case 1:
+			setfName();
+			break;
+			
+			case 2:
+			setlName();
+			break;
+			
+			case 3:
+			setBloodgroup();
+			break;
+			
+			case 4:
+			setAge();
+			break;
+				
+			case 5:
+			setEmail();
+			setMobileNumber();
+			
+			setState();
+			setCity();
+			setAddress();
+			break;
+			
+				
+			case 6:
+			setAll();
+			break;
+			
+			
+		}
+	 }while(op!=7);
+	 
 	}
-	
-	int Patient::setlName()
-	{
-		char last[100];
-		cout<<"Enter Last Name:";
-		cin>>last;
-		strcpy(this->last_name,last);
-	}
-	
-	int Patient::setBloodgroup()
-	{
-		int blood_group;
-		blood_group=blood();
-		this->blood_group=blood_group;
+	 	
 		
-	}
-	
-	int Patient::setAge()
-	{
-		int age;
-		cout<<"Enter age :";
-		cin>>age;;
-		this->age=age;
+	 //Display function	
+	 int Patient:: Display()
+	 {
+	 	cout<<"________________________________________________________________________";
+	 	cout<<endl<<"---------------------------------------------------------";
+	   	cout<<endl<<"     	  Patient Details\n";
+	   	cout<<"---------------------------------------------------------";
+	 	cout<<endl<<"\tPatient ID: "<<this->id;
+	   	cout<<endl<<"\tPatient Name: "<<this->first_name<<" "<<this->last_name;
+	   	cout<<endl<<"\tPatient age: "<<this->age;
+	   	cout<<endl<<"\tPatients Blood Group: ";
+	  	bg_finder(this->blood_group);
+	  	
+	  	cout<<endl<<"\tPurpose of Visit: ";
+	  	p_finder(this->department);
 		
-	}
+	  
+	   cout<<endl<<"\tDate and Time of Arrival: "<<this->date_time;
 	
+	   
+	   cout<<"\tPresent Status: ";
+	   
+	   if(this->is_in==1){
+	   	cout<<"In the Hospital";
+	   }
+	   else
+	   {
+	   	cout<<"Discharged";
+	   	cout<<endl<<"\tDate and Time of Discharge: "<<this->discharge_date;
+	   }
+	   	cout<<endl<<"---------------------------------------------------------";
+	   	cout<<endl<<"       		 Contact Details\n";
+	   	cout<<"---------------------------------------------------------";
+	    cout<<endl<<"\tMobile Number: "<<this->mobile_number;
+	   	cout<<endl<<"\tEmail: "<<this->mail_id;
+	   	cout<<endl<<"\tAddress: "<<this->address;
+	    cout<<endl<<"\tState : "<<this->state;
+	    cout<<endl<<"\tCity : "<<this->city;
+	    cout<<endl<<"--------------------------------------------------------";
+	   
+	   cout<<"\n________________________________________________________________________";
+	   	
+	    cout<<endl;
+	   
+	   cout<<endl;
+	   return 0;
+	 }
+	 
+	 
+	 
+	 
 	
 	int fileTransfer()
 	{
@@ -704,14 +714,7 @@ using namespace std;
 	 }
 	 
 	
-	int Patient::setAll()
-	{
-		this->setfName();
-		this->setlName();
-		this->setAge();
-		this->setBloodgroup();
-		
-	}
+
 	
 	
 	
