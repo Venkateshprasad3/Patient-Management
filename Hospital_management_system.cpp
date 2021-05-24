@@ -84,54 +84,54 @@ using namespace std;
 		{
 		public:
     
-    	char first_name[100];     //patient first Name
-    	char last_name[100];	 //patient last name
-    	int age;			 //patient age
-    	int department;		//department
+    		char first_name[100];     //patient first Name
+    		char last_name[100];	 //patient last name
+    		int age;			 //patient age
+    		int department;		//department
  		int id;				//Auto incremental Id
  		int is_in;			//in the hospital or discharged
  		int blood_group;	//blood group id
  		char date_time[100];//Admit date time
-    	char discharge_date[100];//discharge date time
+    		char discharge_date[100];//discharge date time
     
     
     		//constructor
-         Patient()				
-       	 {
+         	Patient()				
+       	 	{
     		is_in=1;
     		strcpy(this->discharge_date," ");
-       	 }
+       	 	}
 	
 		//Setters
-	    int setfName();
-	    int setlName();
-	    int setTime();
-	    int setDept();
-	    int setAge();
-	    int setAll();
-	    int setBloodgroup();
+	    	int setfName();
+	    	int setlName();
+	    	int setTime();
+	    	int setDept();
+	    	int setAge();
+	    	int setAll();
+	    	int setBloodgroup();
 		
 		//New Patient Details
-	    int input();
+	    	int input();
 	    
 	    //Printer
 		int output_data(int);
 		int Display();
 		
 		//Search
-	    int searchData(int);
+	    	int searchData(int);
 	    
 	    //Edit
-	    int editData();
-	    int Edit();
+	    	int editData();
+	    	int Edit();
 	    
 	    //Delete
-	    int deleteData(int);
-	    int deleteDData(int);
+	    	int deleteData(int);
+	    	int deleteDData(int);
 	    
 		//Entries
-	    int patientLeaves();
-	    int oldPatient();
+	    	int patientLeaves();
+	    	int oldPatient();
 	    
 	    
 	}patient_object;
