@@ -80,7 +80,7 @@ static int val;
 
 
 //Class Patient
-	class Patient : public Contact {
+		class Patient : public Contact {
 		public:
     
     	char first_name[100];     //patient first Name
@@ -92,8 +92,6 @@ static int val;
  		int blood_group;	//blood group id
  		char date_time[100];//Admit date time
     	char discharge_date[100];//discharge date time
-    
-    
     
     
     
