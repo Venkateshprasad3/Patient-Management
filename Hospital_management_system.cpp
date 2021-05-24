@@ -139,9 +139,9 @@ using namespace std;
 
 	int findId()    //Auto Increment Id
 	{
-		int max=0;
-		ifstream file_object; //file pointer object 
-		int val,val1;//val-max in first file val2-max in second file
+        	int max=0;
+	    ifstream file_object; //file pointer object 
+         	int val,val1;//val-max in first file val2-max in second file
 	    file_object.open("Active_patients.dat",ios::in);
 	    file_object.seekg(0);
 	    file_object.read((char*)&patient_object,sizeof(patient_object));
@@ -155,12 +155,12 @@ using namespace std;
 	   		file_object.read((char*)&patient_object,sizeof(patient_object));
 	   		
 	    }
-	   	file_object.close();
+	   file_object.close();
 	   
 	   
 	   
 	     file_object.open("Discharged_patients.dat",ios::in);
-	   	 file_object.seekg(0);
+	     file_object.seekg(0);
 	     file_object.read((char*)&patient_object,sizeof(patient_object));
 	     while(!file_object.eof())
 	     {
