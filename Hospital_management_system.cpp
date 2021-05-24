@@ -141,25 +141,25 @@ static int val;
 		int max=0;
 		ifstream file2;
 		int val,val1;
-	    file2.open("Active_patients.dat",ios::in);
-	    file2.seekg(0);
-	    file2.read((char*)&pat,sizeof(pat));
-	    while(!file2.eof())
-	    {
+	   	 file2.open("Active_patients.dat",ios::in);
+	    	file2.seekg(0);
+	    	file2.read((char*)&pat,sizeof(pat));
+	    	while(!file2.eof())
+	    	{
 	   	val=pat.id;
-	   	if(val>max)
-	   	{
+	   		if(val>max)
+	   		{
 	   		max=val;
-		}
+			}
 	   		file2.read((char*)&pat,sizeof(pat));
 	   		
-	    }
+	    	}
 	   	file2.close();
 	   
 	   
 	   
 	     file2.open("Discharged_patients.dat",ios::in);
-	   	 file2.seekg(0);
+	     file2.seekg(0);
 	     file2.read((char*)&pat,sizeof(pat));
 	     while(!file2.eof())
 	     {
@@ -182,7 +182,7 @@ static int val;
 	int Patient::input()
 	{
 			
-		int val=findId();
+	    int val=findId();
 	    time_t now = time(0); 
 	    ofstream file_obj;
 	  
@@ -211,8 +211,8 @@ static int val;
 	    cout<<endl<<"Enter Patients age:  ";
 	    cin>>age;
 	    bl=blood();
-	 	d=dept();
-	 	this->blood_group=bl;
+	    d=dept();
+        	this->blood_group=bl;
 	 	this->department=d;
 	 	strcpy(this->date_time,ctime(&now) );
 	   
@@ -261,7 +261,7 @@ static int val;
 			break;
 				
 			case 5:
-				setEmail();
+			setEmail();
 			setMobileNumber();
 			
 			setState();
@@ -309,24 +309,22 @@ static int val;
 	   else
 	   {
 	   	cout<<"Discharged";
-	   cout<<endl<<"\tDate and Time of Discharge: "<<this->discharge_date;
+	   	cout<<endl<<"\tDate and Time of Discharge: "<<this->discharge_date;
 	   }
 	   	cout<<endl<<"---------------------------------------------------------";
 	   	cout<<endl<<"       		 Contact Details\n";
 	   	cout<<"---------------------------------------------------------";
-	    cout<<endl<<"\tMobile Number: "<<this->mobile_number;
+		cout<<endl<<"\tMobile Number: "<<this->mobile_number;
 	   	cout<<endl<<"\tEmail: "<<this->mail_id;
 	   	cout<<endl<<"\tAddress: "<<this->address;
-	    cout<<endl<<"\tState : "<<this->state;
-	    cout<<endl<<"\tCity : "<<this->city;
-	    cout<<endl<<"--------------------------------------------------------";
+	    	cout<<endl<<"\tState : "<<this->state;
+	    	cout<<endl<<"\tCity : "<<this->city;
+	    	cout<<endl<<"--------------------------------------------------------";
+	   	cout<<"\n________________________________________________________________________";
+	  	cout<<endl;
 	   
-	   cout<<"\n________________________________________________________________________";
-	   	
-	   cout<<endl;
-	   
-	   cout<<endl;
-	   return 0;
+	   	cout<<endl;
+	   	return 0;
 	 }
 	 
 	 
