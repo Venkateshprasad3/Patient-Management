@@ -6,7 +6,7 @@
 #include "functions.h"
 
 using namespace std;
-static int val;
+
 
 	//Contact Details
 	class Contact
@@ -80,96 +80,96 @@ static int val;
 
 
 	//Class Patient
-	class Patient : public Contact {
+	class Patient : public Contact 
+	{
 	public:
     
-    		char first_name[100];     //patient first Name
-    		char last_name[100];	 //patient last name
-    		int age;			 //patient age
-    		int department;		//department
- 		int id;				//Auto incremental Id
- 		int is_in;			//in the hospital or discharged
- 		int blood_group;	//blood group id
- 		char date_time[100];//Admit date time
-    		char discharge_date[100];//discharge date time
+    	char first_name[100];     //patient first Name
+    	char last_name[100];	 //patient last name
+    	int age;			 //patient age
+    	int department;		//department
+ 	int id;				//Auto incremental Id
+ 	int is_in;			//in the hospital or discharged
+	int blood_group;	//blood group id
+ 	char date_time[100];//Admit date time
+    	char discharge_date[100];//discharge date time
     
     
     
-    		Patient()				//constructor
-   		{
-    		this->is_in=1;
+    	 Patient()				//constructor
+	 {
+   		is_in=1;
     		strcpy(this->discharge_date," ");
-		}
+	 }
 	
-		//Setters
-		int setfName();
-	    	int setlName();
-	    	int setTime();
-	    	int setDept();
-	    	int setAge();
-	    	int setAll();
-	    	int setBloodgroup();
+		//Setters		int setfName();
+	    int setlName();
+	    int setTime();
+	    int setDept();
+	    int setAge();
+	    int setAll();
+	    int setBloodgroup();
 		
 		//New Patient Details
-	    	int input();
+	    int input();
 	    
-	    	//Printer
+	    //Printer
 		int output_data(int);
 		int Display();
 		
 		//Search
-	    	int searchData(int);
+	    int searchData(int);
 	    
-	    	//Edit
-	    	int editData();
-	    	int Edit();
+	    //Edit
+	    int editData();
+	    int Edit();
 	    
-	    	//Delete
-	    	int deleteData(int);
-	    	int deleteDData(int);
+	    //Delete
+	    int deleteData(int);
+	    int deleteDData(int);
 	    
 		//Entries
-	    	int patientLeaves();
-	    	int oldPatient();
+	    int patientLeaves();
+	    int oldPatient();
 	    
 	    
-	}obj,pat,object,it;
+	}patient_object;
 
 
 	int findId()    //Auto Increment Id
 	{
 		int max=0;
-		ifstream file2;
-		int val,val1;
-	   	 file2.open("Active_patients.dat",ios::in);
-	    	file2.seekg(0);
-	    	file2.read((char*)&pat,sizeof(pat));
-	    	while(!file2.eof())
-	    	{
-	   	val=pat.id;
+		ifstream file2; //file pointer object 
+		int val,val1;//val-max in first file val2-max in second file
+	    file2.open("Active_patients.dat",ios::in);
+	    file2.seekg(0);
+	    file2.read((char*)&patient_object,sizeof(patient_object));
+	    while(!file2.eof())
+	    {
+	   		val=patient_object.id;
 	   		if(val>max)
 	   		{
-	   		max=val;
-			}
-	   		file2.read((char*)&pat,sizeof(pat));
+	   			max=val;
+		   	}
+	   		file2.read((char*)&patient_object,sizeof(patient_object));
 	   		
-	    	}
+	    }
 	   	file2.close();
 	   
 	   
 	   
 	     file2.open("Discharged_patients.dat",ios::in);
-	     file2.seekg(0);
-	     file2.read((char*)&pat,sizeof(pat));
+	   	 file2.seekg(0);
+	     file2.read((char*)&patient_object,sizeof(patient_object));
 	     while(!file2.eof())
 	     {
-	   	 val1=pat.id;
+	   	 val1=patient_object.id;
 	   	
 	   	 if(val1>max)
 	   	 {
 	   		max=val1;
 		 }
-	   	file2.read((char*)&pat,sizeof(pat));
+	   	file2.read((char*)&patient_object,sizeof(patient_object));
 	   		
 	   }
 	   file2.close();
@@ -182,7 +182,7 @@ static int val;
 	int Patient::input()
 	{
 			
-	    int val=findId();
+		int val=findId();
 	    time_t now = time(0); 
 	    ofstream file_obj;
 	  
@@ -190,35 +190,35 @@ static int val;
 	
 	   
 	   
-	    char str[100];
-	    char str2[100];
-	    int bl;
+	    char first_name[100];
+	    char last_name[100];
+	    int blood_group;
 	    int age;
-	    int d;
+	    int department;
 	    cout<<endl<<"Enter Patients First Name:  ";
-	    cin>>str;
-	    strcpy(this->first_name, str);
+	    cin>>first_name;
+	    strcpy(this->first_name,first_name );
 	    cout<<endl<<"Enter Patients Last Name:  ";
-	    cin>>str2;
-	    strcpy(this->last_name, str2);
+	    cin>>last_name;
+	    strcpy(this->last_name,last_name);
 	    setEmail();
 	    setMobileNumber();
-	     setState();
+	    setState();
 	    setCity();
 	    setAddress();
-	    
-	   
+	       
 	    cout<<endl<<"Enter Patients age:  ";
 	    cin>>age;
-	    bl=blood();
-	    d=dept();
-        	this->blood_group=bl;
-	 	this->department=d;
+	    blood_group=blood();
+	 	department=dept();
+	 	this->blood_group=blood_group;
+	 	this->department=department;
 	 	strcpy(this->date_time,ctime(&now) );
 	   
 	    this->age = age;
+	    this->is_in=1;
 	    this->id=val+1;
-	    file_obj.write((char*)&object, sizeof(object));
+	    file_obj.write((char*)&patient_object, sizeof(patient_object));
 	    
 	    return 0;
 	}
@@ -261,7 +261,7 @@ static int val;
 			break;
 				
 			case 5:
-			setEmail();
+				setEmail();
 			setMobileNumber();
 			
 			setState();
@@ -269,8 +269,7 @@ static int val;
 			setAddress();
 			break;
 			
-			
-			
+				
 			case 6:
 			setAll();
 			break;
@@ -303,28 +302,31 @@ static int val;
 	
 	   
 	   cout<<"\tPresent Status: ";
-	   if(this->is_in){
+	   
+	   if(this->is_in==1){
 	   	cout<<"In the Hospital";
 	   }
 	   else
 	   {
 	   	cout<<"Discharged";
-	   	cout<<endl<<"\tDate and Time of Discharge: "<<this->discharge_date;
+	   cout<<endl<<"\tDate and Time of Discharge: "<<this->discharge_date;
 	   }
 	   	cout<<endl<<"---------------------------------------------------------";
 	   	cout<<endl<<"       		 Contact Details\n";
 	   	cout<<"---------------------------------------------------------";
-		cout<<endl<<"\tMobile Number: "<<this->mobile_number;
+	    cout<<endl<<"\tMobile Number: "<<this->mobile_number;
 	   	cout<<endl<<"\tEmail: "<<this->mail_id;
 	   	cout<<endl<<"\tAddress: "<<this->address;
-	    	cout<<endl<<"\tState : "<<this->state;
-	    	cout<<endl<<"\tCity : "<<this->city;
-	    	cout<<endl<<"--------------------------------------------------------";
-	   	cout<<"\n________________________________________________________________________";
-	  	cout<<endl;
+	    cout<<endl<<"\tState : "<<this->state;
+	    cout<<endl<<"\tCity : "<<this->city;
+	    cout<<endl<<"--------------------------------------------------------";
 	   
-	   	cout<<endl;
-	   	return 0;
+	   cout<<"\n________________________________________________________________________";
+	   	
+	   cout<<endl;
+	   
+	   cout<<endl;
+	   return 0;
 	 }
 	 
 	 
@@ -347,17 +349,17 @@ static int val;
 	   file2.seekg(0);
 	   cout<<"         Patients Details";
 	   cout<<endl;
-	   file2.read((char*)&pat,sizeof(pat));
+	   file2.read((char*)&patient_object,sizeof(patient_object));
 		while(!file2.eof())
 	   {
 	   	
-	   	if(pat.id==i)
+	   	if(patient_object.id==i)
 		{
-			pat.Display();
+			patient_object.Display();
 			flag=1;
 			   	
 		}
-		file2.read((char*)&pat,sizeof(pat));	
+		file2.read((char*)&patient_object,sizeof(patient_object));	
 	   }
 	}
 	
@@ -371,17 +373,17 @@ static int val;
 	   file2.seekg(0);
 	   cout<<"         Patients Details";
 	   cout<<endl;
-	   file2.read((char*)&pat,sizeof(pat));
+	   file2.read((char*)&patient_object,sizeof(patient_object));
 		while(!file2.eof())
 	   {
 	   	
-	   	if(pat.id==i)
+	   	if(patient_object.id==i)
 		{
-			pat.Display();
+			patient_object.Display();
 			flag=1;
 			   	
 		}
-		file2.read((char*)&pat,sizeof(pat));	
+		file2.read((char*)&patient_object,sizeof(patient_object));	
 	   }
 	}
 	
@@ -415,18 +417,18 @@ static int val;
 	   file2.seekg(0);
 	  
 	   cout<<endl;
-	   file2.read((char*)&pat,sizeof(pat));
+	   file2.read((char*)&patient_object,sizeof(patient_object));
 		while(!file2.eof())
 	   {
 	   	strcpy(temp,upper_case(i));
-	   	strcpy(pat.first_name,upper_case(pat.first_name));
-	   	if(strcmp(temp,pat.first_name)==0)
+	   	strcpy(patient_object.first_name,upper_case(patient_object.first_name));
+	   	if(strcmp(temp,patient_object.first_name)==0)
 		{
 			flag=1;
-			pat.Display();
+			patient_object.Display();
 			   	
 		}
-		file2.read((char*)&pat,sizeof(pat));	
+		file2.read((char*)&patient_object,sizeof(patient_object));	
 	   }
 	   file2.close();
 	   }
@@ -440,17 +442,17 @@ static int val;
 	   	file2.seekg(0);
 	   
 	   	cout<<endl;
-	   	file2.read((char*)&pat,sizeof(pat));
+	   	file2.read((char*)&patient_object,sizeof(patient_object));
 		while(!file2.eof())
 		{
 	   		strcpy(temp,upper_case(i));
-	   		strcpy(pat.first_name,upper_case(pat.first_name));
-	   		if(strcmp(temp,pat.first_name)==0)
+	   		strcpy(patient_object.first_name,upper_case(patient_object.first_name));
+	   		if(strcmp(temp,patient_object.first_name)==0)
 			{
 				flag=1;
-				pat.Display();
+				patient_object.Display();
 			}
-			file2.read((char*)&pat,sizeof(pat));	
+			file2.read((char*)&patient_object,sizeof(patient_object));	
 	   	}
 	   	file2.close();
 		}
@@ -479,10 +481,10 @@ static int val;
 	void searchlName(int option)
 	{
 	 	int flag=0;
-	 	char i[100];
+	 	char name[100];
 	 	char temp[100];
 		cout<<"Enter Patients Last Name :";
-		cin>>i;
+		cin>>name;
 				
 		cout<<"         Patients Details";
 			
@@ -493,18 +495,18 @@ static int val;
 	   		file2.seekg(0);
 	  
 		    cout<<endl;
-	   		file2.read((char*)&pat,sizeof(pat));
+	   		file2.read((char*)&patient_object,sizeof(patient_object));
 			while(!file2.eof())
 	   		{
-	   			strcpy(temp,upper_case(i));
-	   			strcpy(pat.last_name,upper_case(pat.last_name));
-	   			if(strcmp(temp,pat.last_name)==0)
+	   			strcpy(temp,upper_case(name));
+	   			strcpy(patient_object.last_name,upper_case(patient_object.last_name));
+	   			if(strcmp(temp,patient_object.last_name)==0)
 				{	
 					flag=1;
-					pat.Display();
+					patient_object.Display();
 			   	
 				}
-			file2.read((char*)&pat,sizeof(pat));	
+			file2.read((char*)&patient_object,sizeof(patient_object));	
 	   		}
 	   		file2.close();
 		}
@@ -514,24 +516,24 @@ static int val;
 	   		file2.open("Discharged_patients.dat",ios::in);
 	   		file2.seekg(0); 
 	   		cout<<endl;
-	   		file2.read((char*)&pat,sizeof(pat));
+	   		file2.read((char*)&patient_object,sizeof(patient_object));
 			while(!file2.eof())
 	   		{
-	   			strcpy(temp,upper_case(i));
-	   			strcpy(pat.last_name,upper_case(pat.last_name));
-	   			if(strcmp(temp,pat.last_name)==0)
+	   			strcpy(temp,upper_case(name));
+	   			strcpy(patient_object.last_name,upper_case(patient_object.last_name));
+	   			if(strcmp(temp,patient_object.last_name)==0)
 				{
 				flag=1;
-				pat.Display();
+				patient_object.Display();
 				}
-				file2.read((char*)&pat,sizeof(pat));	
+				file2.read((char*)&patient_object,sizeof(patient_object));	
 	   		}
 	   		file2.close();
 		}
 		
 	   if(flag==0)
 	   {
-	   	cout<<"Sorry No patient with Last name "<<i<<endl;
+	   	cout<<"Sorry No patient with Last name "<<name<<endl;
 	   }
 	 	
 	 }
@@ -540,8 +542,8 @@ static int val;
 	void searchBg(int option)
 	{
 		int flag=0;
-	 	int i;
-		i=blood();
+	 	int input; //stores input for blood group
+		input=blood();
 			
 	   	ifstream file2;
 	   	if(option == 1 ||option==3)
@@ -549,16 +551,16 @@ static int val;
 	   	file2.open("Active_patients.dat",ios::in);
 	   	file2.seekg(0);
 	   	cout<<endl;
-	   	file2.read((char*)&pat,sizeof(pat));
+	   	file2.read((char*)&patient_object,sizeof(patient_object));
 		while(!file2.eof())
 		{
-	   		if(i==pat.blood_group)
+	   		if(input==patient_object.blood_group)
 			{
 				flag=1;
-				pat.Display();
+				patient_object.Display();
 			   	
 			}
-			file2.read((char*)&pat,sizeof(pat));	
+			file2.read((char*)&patient_object,sizeof(patient_object));	
 	   	}
 		   	file2.close();
 		}
@@ -569,15 +571,15 @@ static int val;
 	   		file2.open("Discharged_patients.dat",ios::in);
 	   		file2.seekg(0);
 	   		cout<<endl;
-	   		file2.read((char*)&pat,sizeof(pat));
+	   		file2.read((char*)&patient_object,sizeof(patient_object));
 			while(!file2.eof())
 	  		{
-		   	if(i==pat.blood_group)
+		   	if(input==patient_object.blood_group)
 			{
 				flag=1;
-				pat.Display();		   	
+				patient_object.Display();		   	
 			}
-			file2.read((char*)&pat,sizeof(pat));	
+			file2.read((char*)&patient_object,sizeof(patient_object));	
 	   		}
 	   		file2.close();
 		}
@@ -585,7 +587,7 @@ static int val;
 		
 	   if(flag==0)
 	   {
-	   	cout<<"Sorry No patient with Blood Group "<<i<<endl;
+	   	cout<<"Sorry No patient with Blood Group "<<input<<endl;
 	   }
 	 	
 	 }
@@ -634,25 +636,26 @@ static int val;
 		file2.open("Discharged_patients.dat",ios::app);
 		fstream file;
 		file.open("Active_patients.dat",ios::in);
-		file.read((char*)&pat,sizeof(pat));
+		file.read((char*)&patient_object,sizeof(patient_object));
 		while(!file.eof())
 		{
-			if(pat.is_in==0)
+			if(patient_object.is_in==0)
 			{
 				
-				i=pat.id;
-				file2.write((char*)&pat,sizeof(pat));
+				i=patient_object.id;
+				file2.write((char*)&patient_object,sizeof(patient_object));
 				
 			}
 			
-			file.read((char*)&pat,sizeof(pat));
+			file.read((char*)&patient_object,sizeof(patient_object));
 		}
 		file2.close();
 		file.close();
-		pat.deleteData(i);
+		patient_object.deleteData(i);
 		return 0;
 	}
 	
+	//Exit
 	 int Patient:: patientLeaves()
 	 {
 	 	int i,flag=0,flage=0;;
@@ -662,13 +665,13 @@ static int val;
 		fstream f;
 		f.open("Active_patients.dat",ios::in | ios::app);
 		
-		while(f.read((char*)&pat,sizeof(pat)))
+		while(f.read((char*)&patient_object,sizeof(patient_object)))
 		{
 		
-		if(i==pat.id)
+		if(i==patient_object.id)
 		{
 			flage=1;
-			if(pat.is_in==0)
+			if(patient_object.is_in==0)
 			{	
 				cout<<" Patient already Discharged"<<endl;
 				flag=1;
@@ -676,10 +679,10 @@ static int val;
 			else
 			{
 				time_t now = time(0);	
-				strcpy(pat.discharge_date,ctime(&now) );
-				pat.is_in=0;
+				strcpy(patient_object.discharge_date,ctime(&now) );
+				patient_object.is_in=0;
 				f.seekp(1);
-				f.write((char*)&pat,sizeof(pat));
+				f.write((char*)&patient_object,sizeof(patient_object));
 			}
 			break;
 			
@@ -690,7 +693,7 @@ static int val;
 		if(flag==0 &&flage==1)
 		{
 		
-			pat.deleteData(i);
+			patient_object.deleteData(i);
 			cout<<"Patient with ID "<< i <<"  Discharges"<<endl;
 			fileTransfer();
 		}
@@ -722,11 +725,11 @@ static int val;
 	   		file2.open("Active_patients.dat",ios::in);
 	   		file2.seekg(0);
 	   
-	   		file2.read((char*)&pat,sizeof(pat));
+	   		file2.read((char*)&patient_object,sizeof(patient_object));
 	   		while(!file2.eof())
 	   		{
-	   			pat.Display();	
-				file2.read((char*)&pat,sizeof(pat));
+	   			patient_object.Display();	
+				file2.read((char*)&patient_object,sizeof(patient_object));
 	 
 		    }
 			cout<<endl<<endl;
@@ -738,11 +741,11 @@ static int val;
 	   	{
 	   		file2.open("Discharged_patients.dat",ios::in);
 	   		file2.seekg(0);
-	   		file2.read((char*)&pat,sizeof(pat));
+	   		file2.read((char*)&patient_object,sizeof(patient_object));
 	   		while(!file2.eof())
 	   		{
-	   			pat.Display();
-				file2.read((char*)&pat,sizeof(pat));
+	   			patient_object.Display();
+				file2.read((char*)&patient_object,sizeof(patient_object));
 	   		}
 			cout<<endl<<endl;
 	   		file2.close();
@@ -793,23 +796,23 @@ static int val;
 		file2.open("new.dat",ios::app);
 		fstream file;
 		file.open("Active_patients.dat",ios::in);
-		file.read((char*)&pat,sizeof(pat));
+		file.read((char*)&patient_object,sizeof(patient_object));
 		while(!file.eof())
 		{
-			if(d==pat.id)
+			if(d==patient_object.id)
 			{
 			flage=1;
 			}
 		
-			if(d!=pat.id || flag==1)
+			if(d!=patient_object.id || flag==1)
 			{	
-				file2.write((char*)&pat,sizeof(pat));
+				file2.write((char*)&patient_object,sizeof(patient_object));
 			}
 			else
 			{
 				flag=1;
 			}
-			file.read((char*)&pat,sizeof(pat));
+			file.read((char*)&patient_object,sizeof(patient_object));
 		}
 	
 		file2.close();
@@ -834,23 +837,25 @@ static int val;
 	int Patient::editData()
 	{
 		int flag=0;
-		int i,pos;
+		int input;
 		cout<<"Enter id :";
-		cin>>i;
+		cin>>input;
 		
 	    fstream f;
 		f.open("Active_patients.dat",ios::in |ios ::app);
 	
-		while(f.read((char*)&object,sizeof(object)))
+		while(f.read((char*)&patient_object,sizeof(patient_object)))
 		{
-			if(i==object.id)
+			if(input==patient_object.id)
 			{
+				patient_object.Display();
 				f.seekp(1);
-				object.Edit();
+				
+				patient_object.Edit();
 				flag=1;	
-				f.write((char*)&object,sizeof(object));
+				f.write((char*)&patient_object,sizeof(patient_object));
 				f.close();
-				deleteData(i);
+				patient_object.deleteData(input);
 				break;
 			}
 		
@@ -866,16 +871,16 @@ static int val;
 		
 		fstream f;
 		f.open("Discharged_patients.dat",ios::in | ios::out |ios::app);
-		while(f.read((char*)&pat,sizeof(pat)))
+		while(f.read((char*)&patient_object,sizeof(patient_object)))
 		{
-			if(i==pat.id)
+			if(i==patient_object.id)
 			{
 				
 				
 			flag=1;
-			pat.setDept();
-			pat.setTime();
-			pat.is_in=1;
+			patient_object.setDept();
+			patient_object.setTime();
+			patient_object.is_in=1;
 			f.close();
 			break;
 			}
@@ -887,7 +892,7 @@ static int val;
 			f.open("Active_patients.dat",ios::app);
 			f2.seekg(0);
 			
-			f2.write((char*)&pat,sizeof(pat));
+			f2.write((char*)&patient_object,sizeof(patient_object));
 			f2.close();
 			cout<<"Done";
 			
@@ -920,32 +925,32 @@ static int val;
 	 		switch(option)
 	 		{
 	 			case 1:
-	 				object.input();
+	 				patient_object.input();
 	 				break;
 	 			case 2:
-	 				int o;
+	 				int opt;
 	 				cout<<endl<<"1. Active Patients "<<endl<<"2. Discharged Patients "<<endl<<"3. ALL patients";
-	 				cin>>o;	
+	 				cin>>opt;	
 	 				system("cls");
-					object.output_data(o);
+					patient_object.output_data(opt);
 	 				break;
 	 			case 3:
 	 				cout<<endl<<"1. Active Patients "<<endl<<"2. Discharged Patients "<<endl<<"3. ALL patients";
-	 				cin>>o;
-	 				object.searchData(o);
+	 				cin>>opt;
+	 				patient_object.searchData(opt);
 	 				break;
 	 			case 4:
 	 				int d;
 	 				cout<<"Delete Id";
 					cin>>d;	
-	 				object.deleteData(d);
+	 				patient_object.deleteData(d);
 	 	
 	 				break;
 	 			case 5:
-	 				object.editData();
+	 				patient_object.editData();
 	 				break;
 	 			case 6:
-	 				object.patientLeaves();
+	 				patient_object.patientLeaves();
 	 				break;
 	 			case 7:
 	 				//object.oldPatient();
