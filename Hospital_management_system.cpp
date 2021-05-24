@@ -580,7 +580,7 @@ int Patient::input()
     ofstream file_obj;
  
     
-    file_obj.open("Active_patients.dat",ios::out |  ios::app);
+    file_obj.open("Active_patients.dat",ios::app);
  
     // Object of class Patient to input data in file
     
