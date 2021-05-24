@@ -18,7 +18,7 @@ public:
     char fName[100];     //patient first Name
     char lName[100];	 //patient last name
     int Age;			 //patient age
-    
+    int Department;		//department
  	int id;				//Auto incremental Id
  	int is_in;			//in the hospital or discharged
  	int blood_group;	//blood group id
@@ -41,6 +41,7 @@ public:
     int setfName();
     int setlName();
     int deleteData(int);
+    int deleteDData(int);
     int setBloodgroup();
     int setAge();
     int setAll();
@@ -95,13 +96,7 @@ public:
  
 }
  	
- void bg_finder(int i)
-{
 	
-char blo[15][15] ={"O+ve","O-ve","A+ve","A-ve","B+ve","B-ve","AB+ve","AB-ve"};
-cout<<blo[i-1];
- 
-}	
  	
  void Display()
  {
@@ -112,6 +107,8 @@ cout<<blo[i-1];
    cout<<endl<<"Patient Age: "<<Emp_1.Age;
    cout<<endl<<"Patients Blood Group: ";
   	bg_finder(Emp_1.blood_group);
+  	  cout<<endl<<"Purpose of Visit: ";
+  	p_finder(Emp_1.Department);
 	
   
    cout<<endl<<"Date and Time of Arrival: "<<Emp_1.date_time;
@@ -456,9 +453,9 @@ int Patient::setlName()
 
 int Patient::setBloodgroup()
 {
-//	int blood_group;
-//	blood_group=blood();
-//	this->blood_group=blood_group;
+	int blood_group;
+	blood_group=blood();
+	this->blood_group=blood_group;
 	
 }
 
@@ -594,6 +591,7 @@ int Patient::input()
     char str2[100];
     int bl;
     int age;
+    int d;
     cout<<endl<<"Enter Patients Name:  ";
     cin>>str;
     strcpy(obj.fName, str);
@@ -604,8 +602,9 @@ int Patient::input()
     cout<<endl<<"Enter Patients Age:  ";
     cin>>age;
     bl=blood();
- 
+ 	d=dept();
  	obj.blood_group=bl;
+ 	obj.Department=d;
  	strcpy(obj.date_time,ctime(&now) );
    
     obj.Age = age;
@@ -760,9 +759,59 @@ else
 	cout<<"Incorrect Patient Id";
 }
 }
+
+
+
+int Patient::deleteDData(int d)
+{
+int flag=0,flage=0;
+
+ofstream file2;
+file2.open("new.dat",ios::app);
+fstream file;
+file.open("Discharged_patients.dat",ios::in);
+file.read((char*)&Emp_1,sizeof(Emp_1));
+while(!file.eof())
+{
+	if(d==Emp_1.id)
+	{
+		flage=1;
+	}
+	
+	if(d!=Emp_1.id || flag==1)
+	{
+	
+		
+		file2.write((char*)&Emp_1,sizeof(Emp_1));
+			
+	}
+	else
+	{
+		flag=1;
+	}
+	file.read((char*)&Emp_1,sizeof(Emp_1));
+}
+
+file2.close();
+file.close();
+
+   
+if(flage==1)
+{
+
+remove("Discharged_patients.dat");
+rename("new.dat","Discharged_patients.dat");
+;
+}
+else
+{
+	cout<<"Incorrect Patient Id";
+}
+}
  
 int Patient::editData()
 {
+	int flag=0;
 	int i,pos;
 	cout<<"Enter id :";
 	cin>>i;
@@ -775,18 +824,54 @@ int Patient::editData()
 	
 	if(i==Emp_1.id)
 	{
+		flag=1;
 		Display();
-		Edit();
-			
+		Edit();	
 		f.write((char*)&Emp_1,sizeof(Emp_1));
 		break;
 	}
 	
 	}
 	f.close();
-	deleteData(i);
+	if(flag==1)
+	{
+		deleteData(i);
+	}
+	else
+	{
 	
+	cout<<"Incorrect Id";
+	//Check Inactive
+//	fstream f;
+//	f.open("Discharged_patients.dat",ios::in | ios::out |ios::app);
+//	
+//	while(f.read((char*)&Emp_1,sizeof(Emp_1)))
+//	{
+//	
+//	if(i==Emp_1.id)
+//	{
+//		flag=1;
+//		Display();
+//		Edit();
+//			
+//		f.write((char*)&Emp_1,sizeof(Emp_1));
+//		break;
+//	}
+//	
+//	}
+//	f.close();
+//	if(flag==1)
+//	{
+//		deleteDData(i);
+//	}
+//	else
+//	{
+//		cout<<"Incorrect Id";
+//		
+//	}
+//	
 	
+}
 } 
 // Driver code
 int main()
@@ -830,7 +915,9 @@ int main()
  			int d;
  			cout<<"Delete Id";
 			cin>>d;
+			
  			object.deleteData(d);
+ 		//	object.deleteDData(d);
  			
  			break;
  		case 5:
