@@ -2,7 +2,9 @@
 #include <fstream>
 #include<stdlib.h>
 #include<string.h>
+#include <bits/stdc++.h>
 #include <ctime>
+#include <vector>
 #include "functions.h"
 
 using namespace std;
@@ -84,19 +86,19 @@ using namespace std;
 		{
 		public:
     
-    		char first_name[100];     //patient first Name
-   	 	char last_name[100];	 //patient last name
-    		int age;			 //patient age
-    		int department;		//department
+    	char first_name[100];     //patient first Name
+    	char last_name[100];	 //patient last name
+    	int age;			 //patient age
+    	int department;		//department
  		int id;				//Auto incremental Id
  		int is_in;			//in the hospital or discharged
  		int blood_group;	//blood group id
  		char date_time[100];//Admit date time
-    		char discharge_date[100];//discharge date time
+    	char discharge_date[100];//discharge date time
     
     
     
-    		Patient()				//constructor
+    	Patient()				//constructor
    		{
     		is_in=1;
     		strcpy(this->discharge_date," ");
@@ -104,39 +106,44 @@ using namespace std;
 	
 		//Setters
 		int setfName();
-		int setlName();
-	   	int setTime();
-	    	int setDept();
-	    	int setAge();
-	    	int setAll();
-	    	int setBloodgroup();
+	    int setlName();
+	    int setTime();
+	    int setDept();
+	    int setAge();
+	    int setAll();
+	    int setBloodgroup();
 		
 		//New Patient Details
-	    	int input();
+	    int input();
 	    
-	    	//Printer
+	    //Printer
 		int output_data(int);
-		int Display();
+		void Display();
 		
 		//Search
-	    	int searchData(int);
+	    int searchData(int);
 	    
-	    	//Edit
-	    	int editData();
-	    	int Edit();
+	    //Edit
+	    int editData();
+	    int Edit();
 	    
-	    	//Delete
-	    	int deleteData(int);
-	    	int deleteDData(int);
+	    //Delete
+	    int deleteData(int);
+	    int deleteDData(int);
 	    
 		//Entries
-	    	int patientLeaves();
-	    	int oldPatient();
+	    int patientLeaves();
+	    int oldPatient();
 	    
+	    
+	    //Sort
+	    int sortAndDisplay();
 	    
 	}patient_object;
 
-
+	vector<Patient> sorted;  // vector to store and sort objects
+	
+	
 	int findId()    //Auto Increment Id
 	{
 		int max=0;
@@ -591,7 +598,7 @@ using namespace std;
 	 	
 		
 	 //Display function	
-	 int Patient:: Display()
+	 void Patient:: Display()
 	 {
 	 	cout<<"________________________________________________________________________";
 	 	cout<<endl<<"---------------------------------------------------------";
@@ -635,7 +642,7 @@ using namespace std;
 	    cout<<endl;
 	   
 	   cout<<endl;
-	   return 0;
+
 	 }
 	 
 	 
@@ -927,6 +934,206 @@ using namespace std;
 		return 0;
 	}
 	
+
+	
+	void displayVector()
+	{
+		for(int i=0;i<sorted.size();i++)
+		{
+			sorted[i].Display();
+		}
+	}
+	
+	
+	
+	int Patient :: sortAndDisplay()
+	{
+		
+		ifstream file_object;
+		file_object.open("Active_patients.dat",ios::in);
+		sorted.clear();
+		while(file_object.read((char *)&patient_object,sizeof(patient_object)))
+		{
+			sorted.push_back(patient_object);
+		}
+		file_object.close();
+		
+		int order,field;
+		cout<<"\nEnter Order to sort: \n";
+		cout<<"1. Ascending Order \n";
+		cout<<"2. Decending Order \n";
+		cin>>order;
+		field=getFields();
+		
+		
+		
+		switch(field)
+		{
+			case 1:
+			if(order==1)
+			{
+     			sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      				return lhs.id < rhs.id;
+   				});
+			}
+			else
+			{
+				sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      				return lhs.id > rhs.id;
+   				});
+			}
+			break;
+			
+			case 2:
+			if(order==1)
+			{	
+     			sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+				    return strcmp(lhs.first_name,rhs.first_name);
+   				});
+			}
+			else
+			{
+				sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      			return strcmp(rhs.first_name,lhs.first_name);
+   				});
+			}
+			break;
+			
+			
+			
+			case 3:
+			if(order==1)
+			{
+	     		sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      				return strcmp(lhs.last_name,rhs.last_name);
+   				});
+			}
+			else
+			{
+				sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      			return strcmp(rhs.last_name,lhs.last_name);
+   				});
+			}
+			break;
+			
+			case 4:
+			if(order==1)
+			{
+	     		sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      				return lhs.age < rhs.age;
+   				});
+			}
+			else
+			{
+				sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      				return lhs.age > rhs.age;
+   				});
+			}
+			break;
+			case 5:
+			if(order==1)
+			{
+	     		sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      				return lhs.is_in < rhs.is_in;
+   				});
+			}
+			else
+			{
+				sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      				return rhs.is_in > rhs.is_in;
+   				});
+			}
+			break;
+			
+			
+			case 7:
+				if(order==1)
+				{
+	     		sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      				return strcmp(lhs.state,rhs.state);
+   				});
+				}
+				else
+				{
+				sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      			return strcmp(rhs.state,lhs.state);
+   				});
+				}
+				
+				break;
+				
+			case 8:
+				if(order==1)
+				{
+	     		sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      				return strcmp(lhs.city,rhs.city);
+   				});
+				}
+				else
+				{
+				sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      			return strcmp(rhs.city,lhs.city);
+   				});
+				}
+				
+				break;
+				
+			
+			
+			case 9:
+			if(order==1)
+			{
+	     		sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      				return lhs.mobile_number < rhs.mobile_number;
+   				});
+			}
+			else
+			{
+				sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      				return lhs.mobile_number > rhs.mobile_number;
+   				});
+			}
+			break;
+			
+			
+			case 10:
+				if(order==1)
+				{
+	     		sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      				return strcmp(lhs.address,rhs.address);
+   				});
+				}
+				else
+				{
+				sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      			return strcmp(rhs.address,lhs.address);
+   				});
+				}
+				
+			break;
+		}
+				
+		displayVector();
+	}
+	
 	
 	// Driver code
 	int main()
@@ -944,7 +1151,8 @@ using namespace std;
 	    	cout<<endl<<"5. Edit Data";
 	    	cout<<endl<<"6. Patient Exits";
 	  	    cout<<endl<<"7. Existing Patient";
-	    	cout<<endl<<"7. Exit";
+	    	cout<<endl<<"8. Sorting";
+	    	cout<<endl<<"9. Exit";
 	    
 	    	cin>>option;
 	    	cout<<endl;
@@ -967,9 +1175,10 @@ using namespace std;
 	 				break;
 	 			case 4:
 	 				int d;
-	 				cout<<"Delete Id";
+	 				cout<<"Enter Patient Id to be deleted";
 					cin>>d;	
 	 				patient_object.deleteData(d);
+	 				cout<<"Patient ID Removed successfully ";
 	 	
 	 				break;
 	 			case 5:
@@ -981,9 +1190,12 @@ using namespace std;
 	 			case 7:
 	 				patient_object.oldPatient();
 	 				break;
+	 			case 8:
+	 				patient_object.sortAndDisplay();
+	 				break;
 	 			
 			}
-		}	while(option<8);
+		}	while(option<9);
 	 	
 	 	
 	    return 0;
