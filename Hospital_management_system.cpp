@@ -84,15 +84,15 @@ using namespace std;
 		{
 		public:
     
-    		char first_name[100];     	//patient first Name
-    		char last_name[100];	 	//patient last name
-    		int age;	         	 //patient age
-    		int department;			//department
+    		char first_name[100];     //patient first Name
+   	 	char last_name[100];	 //patient last name
+    		int age;			 //patient age
+    		int department;		//department
  		int id;				//Auto incremental Id
  		int is_in;			//in the hospital or discharged
- 		int blood_group;		//blood group id
- 		char date_time[100];		//Admit date time
-    		char discharge_date[100];	//discharge date time
+ 		int blood_group;	//blood group id
+ 		char date_time[100];//Admit date time
+    		char discharge_date[100];//discharge date time
     
     
     
@@ -105,16 +105,16 @@ using namespace std;
 		//Setters
 		int setfName();
 		int setlName();
-		int setTime();
-		int setDept();
-		int setAge();
-		int setAll();
-		int setBloodgroup();
+	   	int setTime();
+	    	int setDept();
+	    	int setAge();
+	    	int setAll();
+	    	int setBloodgroup();
 		
 		//New Patient Details
 	    	int input();
 	    
-		 //Printer
+	    	//Printer
 		int output_data(int);
 		int Display();
 		
@@ -133,14 +133,15 @@ using namespace std;
 	    	int patientLeaves();
 	    	int oldPatient();
 	    
+	    
 	}patient_object;
 
 
 	int findId()    //Auto Increment Id
 	{
-	    int max=0;
-            ifstream file_object; //file pointer object 
-    	    int val,val1;//val-max in first file val2-max in second file
+		int max=0;
+		ifstream file_object; //file pointer object 
+		int val,val1;//val-max in first file val2-max in second file
 	    file_object.open("Active_patients.dat",ios::in);
 	    file_object.seekg(0);
 	    file_object.read((char*)&patient_object,sizeof(patient_object));
@@ -215,7 +216,7 @@ using namespace std;
 	{ 	
 	 	time_t now = time(0);
 	 	strcpy(this->date_time,ctime(&now) );	 	
-        }
+    }
 	 
 	int Patient::setDept()
 	{ 	
@@ -252,8 +253,8 @@ using namespace std;
 	   cout<<"         Patients Details";
 	   cout<<endl;
 	   file_object.read((char*)&patient_object,sizeof(patient_object));
-	       while(!file_object.eof())
-	       {
+		while(!file_object.eof())
+	   {
 	   	
 	   	if(patient_object.id==input)
 		{
@@ -262,34 +263,37 @@ using namespace std;
 			   	
 		}
 		file_object.read((char*)&patient_object,sizeof(patient_object));	
-	   	}
-		}
+	   }
+	}
 	
 	
 		if(option ==2 || option ==3)
 		{
+		
 				
-		   ifstream file_object;
-	   	   file_object.open("Discharged_patients.dat",ios::in);
-	   	   file_object.seekg(0);
-	   	   cout<<"         Patients Details";
-	   	   cout<<endl;
-	   	   file_object.read((char*)&patient_object,sizeof(patient_object));
-		   while(!file_object.eof())
-		   {	
-	   		if(patient_object.id==input)
-			{
-				patient_object.Display();
-				flag=1;	   	
-			}
-		   file_object.read((char*)&patient_object,sizeof(patient_object));	
-	   	  }
+	   ifstream file_object;
+	   file_object.open("Discharged_patients.dat",ios::in);
+	   file_object.seekg(0);
+	   cout<<"         Patients Details";
+	   cout<<endl;
+	   file_object.read((char*)&patient_object,sizeof(patient_object));
+		while(!file_object.eof())
+	   {
+	   	
+	   	if(patient_object.id==input)
+		{
+			patient_object.Display();
+			flag=1;
+			   	
 		}
+		file_object.read((char*)&patient_object,sizeof(patient_object));	
+	   }
+	}
 	
-	   	if(flag==0)
-	   	{
+	   if(flag==0)
+	   {
 	   	cout<<"Incorrect Patient Id: "<<input;
-	   	}
+	   }
 	 	
 	 }
 	 
@@ -304,17 +308,17 @@ using namespace std;
 	 	char temp[100];
 		cout<<"Enter Patients Name :";
 		cin>>input;	
-    		cout<<"         Patients Details";
+    	cout<<"         Patients Details";
 			
-	   	ifstream file_object;
-	   	if(option == 1 ||option==3)
-	   	{
+	   ifstream file_object;
+	   if(option == 1 ||option==3)
+	   {
 	   
-	   	file_object.open("Active_patients.dat",ios::in);
-	 	  file_object.seekg(0);
+	   file_object.open("Active_patients.dat",ios::in);
+	   file_object.seekg(0);
 	  
-	   	cout<<endl;
-	   	file_object.read((char*)&patient_object,sizeof(patient_object));
+	   cout<<endl;
+	   file_object.read((char*)&patient_object,sizeof(patient_object));
 		while(!file_object.eof())
 	   	{
 	   	strcpy(temp,upper_case(input));
@@ -328,7 +332,7 @@ using namespace std;
 		file_object.read((char*)&patient_object,sizeof(patient_object));	
 	   	}
 	  	file_object.close();
-	   	}
+	   }
 		
 		
 		if(option == 2 ||option ==3)
@@ -355,10 +359,10 @@ using namespace std;
 		}
 		
 		
-	   	if(flag==0)
-	   	{
+	   if(flag==0)
+	   {
 	   		cout<<"Sorry No patient with first name "<<input<<endl;
-	        }
+	   }
 	 	
 	}
 	 
@@ -409,8 +413,8 @@ using namespace std;
 	   			strcpy(patient_object.last_name,upper_case(patient_object.last_name));
 	   			if(strcmp(temp,patient_object.last_name)==0)
 				{
-					flag=1;
-					patient_object.Display();
+				flag=1;
+				patient_object.Display();
 				}
 				file_object.read((char*)&patient_object,sizeof(patient_object));	
 	   		}
@@ -515,10 +519,10 @@ using namespace std;
 	    cout<<endl<<"Enter Patients age:  ";
 	    cin>>age;
 	    blood_group=blood();
-	    department=dept();
-            this->blood_group=blood_group;
-            this->department=department;
-            strcpy(this->date_time,ctime(&now) );
+	 	department=dept();
+	 	this->blood_group=blood_group;
+	 	this->department=department;
+	 	strcpy(this->date_time,ctime(&now) );
 	   
 	    this->age = age;
 	    this->is_in=1;
@@ -868,39 +872,58 @@ using namespace std;
 	
 	int Patient::oldPatient()
 	{
-		int i,flag=0;;
+		int input,flag=0;
+		int dont_re_enter=0;
 		cout<<"Enter Existing Patient Id";
-		cin>>i;
-		
-		fstream f;
-		f.open("Discharged_patients.dat",ios::in | ios::out |ios::app);
-		while(f.read((char*)&patient_object,sizeof(patient_object)))
+		cin>>input;
+		ifstream file_obj;
+		file_obj.open("Active_patients.dat",ios::in );
+		while(file_obj.read((char*)&patient_object,sizeof(patient_object)))
 		{
-			if(i==patient_object.id)
+			if(input==patient_object.id)
 			{
+				dont_re_enter=1;
 				
-				
+			}
+		}
+		file_obj.close();
+		
+		
+		
+		if(dont_re_enter==0)
+		{
+		file_obj.open("Discharged_patients.dat",ios::in );
+		while(file_obj.read((char*)&patient_object,sizeof(patient_object)))
+		{
+			if(input==patient_object.id)
+			{			
 			flag=1;
 			patient_object.setDept();
 			patient_object.setTime();
 			patient_object.is_in=1;
-			f.close();
+			file_obj.close();
 			break;
 			}
 					
 		}
 		if(flag==1)
 		{
-			fstream f2;
-			f.open("Active_patients.dat",ios::app);
-			f2.seekg(0);
-			
-			f2.write((char*)&patient_object,sizeof(patient_object));
-			f2.close();
-			cout<<"Done";
+			ofstream file_obj2;
+			file_obj2.open("Active_patients.dat",ios::app);
+			file_obj2.write((char*)&patient_object,sizeof(patient_object));
+			file_obj2.close();
+			cout<<"Patient re-entry successul";
 			
 		}
-		
+		else
+		{
+			cout<<"No such patient id exists";
+		}
+		}
+		else
+		{
+			cout<<"Already  in the hospital";
+		}
 		return 0;
 	}
 	
@@ -913,14 +936,14 @@ using namespace std;
 	    
 	    do
 	    {
-		cout<<endl<<"Enter Option";
-		cout<<endl<<"1. Add Patient information";
-	   	cout<<endl<<"2. Display Patient details ";
+			cout<<endl<<"Enter Option";
+		    cout<<endl<<"1. Add  New Patient information";
+	   		cout<<endl<<"2. Display Patient details ";
 	    	cout<<endl<<"3. Search details ";
 	    	cout<<endl<<"4. Delete details ";
 	    	cout<<endl<<"5. Edit Data";
 	    	cout<<endl<<"6. Patient Exits";
-	  	//  cout<<endl<<"7. Existing Patient";
+	  	    cout<<endl<<"7. Existing Patient";
 	    	cout<<endl<<"7. Exit";
 	    
 	    	cin>>option;
@@ -956,11 +979,11 @@ using namespace std;
 	 				patient_object.patientLeaves();
 	 				break;
 	 			case 7:
-	 				//object.oldPatient();
+	 				patient_object.oldPatient();
 	 				break;
 	 			
 			}
-		}	while(option<7);
+		}	while(option<8);
 	 	
 	 	
 	    return 0;
