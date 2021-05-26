@@ -10,7 +10,7 @@
 using namespace std;
 
 
-	//Contact Details
+	//Contact Detail
 	class Contact
 	{
 		public:
