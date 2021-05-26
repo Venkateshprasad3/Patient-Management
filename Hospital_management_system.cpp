@@ -86,19 +86,19 @@ using namespace std;
 		{
 		public:
     
-    	char first_name[100];     //patient first Name
-    	char last_name[100];	 //patient last name
-    	int age;			 //patient age
-    	int department;		//department
+    		char first_name[100];     //patient first Name
+    		char last_name[100];	 //patient last name
+    		int age;			 //patient age
+    		int department;		//department
  		int id;				//Auto incremental Id
  		int is_in;			//in the hospital or discharged
  		int blood_group;	//blood group id
  		char date_time[100];//Admit date time
-    	char discharge_date[100];//discharge date time
+    		char discharge_date[100];//discharge date time
     
     
     
-    	Patient()				//constructor
+    		Patient()				//constructor
    		{
     		is_in=1;
     		strcpy(this->discharge_date," ");
