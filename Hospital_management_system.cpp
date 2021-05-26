@@ -86,19 +86,19 @@ using namespace std;
 		{
 		public:
     
-    		char first_name[100];     //patient first Name
-    		char last_name[100];	 //patient last name
-    		int age;			 //patient age
-    		int department;		//department
+    	char first_name[100];     //patient first Name
+    	char last_name[100];	 //patient last name
+    	int age;			 //patient age
+    	int department;		//department
  		int id;				//Auto incremental Id
  		int is_in;			//in the hospital or discharged
  		int blood_group;	//blood group id
  		char date_time[100];//Admit date time
-    		char discharge_date[100];//discharge date time
+    	char discharge_date[100];//discharge date time
     
     
     
-    		Patient()				//constructor
+    	Patient()				//constructor
    		{
     		is_in=1;
     		strcpy(this->discharge_date," ");
@@ -106,43 +106,92 @@ using namespace std;
 	
 		//Setters
 		int setfName();
-	    	int setlName();
-	    	int setTime();
-	    	int setDept();
-	    	int setAge();
-	    	int setAll();
-		int setBloodgroup();
+	    int setlName();
+	    int setTime();
+	    int setDept();
+	    int setAge();
+	    int setAll();
+	    int setBloodgroup();
 		
 		//New Patient Details
-	    	int input();
+	    int input();
 	    
-	    	//Printer
+	    //Printer
 		int output_data(int);
 		void Display();
 		
 		//Search
-	    	int searchData(int);
+	    int searchData(int);
 	    
-	    	//Edit
-	    	int editData();
-	    	int Edit();
+	    //Edit
+	    int editData();
+	    int Edit();
 	    
-	    	//Delete
-	    	int deleteData(int);
-	    	int deleteDData(int);
+	    //Delete
+	    int deleteData(int);
+	    int deleteDData(int);
 	    
 		//Entries
-	    	int patientLeaves();
-	    	int oldPatient();
+	    int patientLeaves();
+	    int oldPatient();
 	    
 	    
-	    	//Sort
-	    	int sortAndDisplay();
+	    //Sort
+	    int sortAndDisplay();
 	    
 	}patient_object;
 
 	vector<Patient> sorted;  // vector to store and sort objects
 	
+	
+	void getData(int option)
+	 {
+	 	sorted.clear();
+	 	ifstream file_object;
+	 	if(option==1 || option==3)
+		{
+		file_object.open("Active_patients.dat",ios::in);
+	
+		while(file_object.read((char *)&patient_object,sizeof(patient_object)))
+		{
+			sorted.push_back(patient_object);
+		}
+		file_object.close();
+		}
+		if(option==2 || option==3)
+		{
+		file_object.open("Discharged_patients.dat",ios::in);
+		
+		while(file_object.read((char *)&patient_object,sizeof(patient_object)))
+		{
+			sorted.push_back(patient_object);
+		}
+		file_object.close();
+		}
+	 }
+	
+	void displayVector()
+	{
+		for(int i=0;i<sorted.size();i++)
+		{
+			sorted[i].Display();
+		}
+	}
+	
+	void displayHeader()
+	{
+		cout<<"id    "<<"Name    "<<"          Age   "<<"  Purpose     "<<" Blood Group     "<<"Status        ";
+		cout<<"     Email      "<<"                 State    "<<"      City   ";
+		cout<<"       Address     ";
+		cout<<"     Mobile Number ";
+		cout<<"     Admit Date and Time ";
+		cout<<"\n";
+		cout<<"\n";
+		cout<<"\n";
+		cout<<"_____________________________________________________________________________________________________________________________________________________________________________________________________";
+		cout<<"\n";
+		cout<<"\n";
+	}
 	
 	int findId()    //Auto Increment Id
 	{
@@ -240,6 +289,27 @@ using namespace std;
 		
 	}
 	
+	//Display function	
+	 void Patient:: Display()
+	 {
+	 	cout<<this->id<<"     "<<this->first_name<<" "<<this->last_name<<"    "<<this->age<<"    ";
+	 	p_finder(this->is_in);
+	 	cout<<"     ";
+		bg_finder(this->blood_group);
+		cout<<"           ";
+		if(this->is_in==1){cout<< "In the hospital";}
+		else cout<<"Discharged";
+		cout<<"     "<<this->mail_id;
+		cout<<"        "<<this->state;
+		cout<<"      "<<this->city;
+		cout<<"       "<<this->address;
+		cout<<"        "<<this->mobile_number;
+		cout<<"     "<<this->date_time;
+		cout<<"\n";
+		cout<<"-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
+		cout<<" \n";
+	 }
+	
 	
 	
 	//Searchers
@@ -304,67 +374,138 @@ using namespace std;
 	 	
 	 }
 	 
+
+	 string global_input;
 	 
-	 
+	 	void inline_fun(int i,int field)
+		{
+			string blood;
+		switch(field)
+		{
+			case 1:
+    			global_input=to_string(sorted[i].id);
+				break;   
+			case 2:
+    			global_input=toString(sorted[i].first_name);
+				break;
+			case 3:
+    			global_input=toString(sorted[i].last_name);
+				break;
+			case 4:
+    			global_input=to_string(sorted[i].age);
+				break;
+			case 5:
+    			global_input=to_string(sorted[i].is_in);
+				break; 	
+			case 6:
+				global_input=return_bg(sorted[i].blood_group);
+				
+				break;
+			case 7:
+    			global_input=toString(sorted[i].state);
+				break;
+			case 8:
+    			global_input=toString(sorted[i].city);
+				break;
+			case 9:
+    			global_input=to_string(sorted[i].mobile_number);
+				break;
+			case 10:
+    			global_input=toString(sorted[i].address);
+				break;
+    	}
+    	}
 	 
 	//Search using first name 
-	void searchfName(int option)
+	void AdvanceSearch(int type,int option,int field)
 	 {
-	 	int flag=0;
-	 	char input[100];
+	 	
+	 	int flag=0,i;
+	 	string input;
 	 	char temp[100];
-		cout<<"Enter Patients Name :";
-		cin>>input;	
-    	cout<<"         Patients Details";
-			
-	   ifstream file_object;
-	   if(option == 1 ||option==3)
-	   {
-	   
-	   file_object.open("Active_patients.dat",ios::in);
-	   file_object.seekg(0);
+		cout<<"Enter Search data :";
+		cin>>input;
+		getData(option);
+		displayHeader();
+		
+		
+    			
+		int found;
+    
+    	switch(type)
+    	{
+    		case 1:
+    			for(i=0;i<sorted.size();i++)
+    			{
+    			inline_fun(i,field);
+    			found = upper_case(global_input).find(upper_case(input));
+    			if (found != string::npos)
+    			{
+        			if(found==0)
+        			{
+        				flag=1;
+            			
+            			sorted[i].Display();
+            		}
+    			}
+				}									    				
+    			break;
+    			
+    			case 2:
+    			for(i=0;i<sorted.size();i++)
+    			{
+    			inline_fun(i,field);
+    			found = upper_case(global_input).find(upper_case(input));
+    			if (found != string::npos)
+    			{
+        			if(found>=0)
+        			{
+        				flag=1;
+            			
+            			sorted[i].Display();
+            		}
+    			}
+				}							    				
+    			break;
+    			
+    			
+    			
+    			case 3:
+    			for(i=0;i<sorted.size();i++)
+    			{
+    			inline_fun(i,field);
+    			found = upper_case(global_input).rfind(upper_case(input));
+    			if (found != string::npos)
+    			{
+    				
+        			if((found + input.length() )==global_input.length())
+        			{
+        				flag=1;
+            			sorted[i].Display();
+            		}
+    			}
+				}							    				
+    			break;
+    			
+    			
+    			case 4:
+    			for(i=0;i<sorted.size();i++)
+    			{
+    			inline_fun(i,field);
+    			found = upper_case(global_input).find(upper_case(input));
+    			if (found != string::npos)
+    			{
+        			if((found )==global_input.length())
+        			{
+        				flag=1;
+            			sorted[i].Display();
+            		}
+    			}
+				}							    				
+    			break;
+				
+		}
 	  
-	   cout<<endl;
-	   file_object.read((char*)&patient_object,sizeof(patient_object));
-		while(!file_object.eof())
-	   	{
-	   	strcpy(temp,upper_case(input));
-	   	strcpy(patient_object.first_name,upper_case(patient_object.first_name));
-	   	if(strcmp(temp,patient_object.first_name)==0)
-		{
-			flag=1;
-			patient_object.Display();
-			   	
-		}
-		file_object.read((char*)&patient_object,sizeof(patient_object));	
-	   	}
-	  	file_object.close();
-	   }
-		
-		
-		if(option == 2 ||option ==3)
-	   	{
-	   	
-	   
-	   	file_object.open("Discharged_patients.dat",ios::in);
-	   	file_object.seekg(0);
-	   
-	   	cout<<endl;
-	   	file_object.read((char*)&patient_object,sizeof(patient_object));
-		while(!file_object.eof())
-		{
-	   		strcpy(temp,upper_case(input));
-	   		strcpy(patient_object.first_name,upper_case(patient_object.first_name));
-	   		if(strcmp(temp,patient_object.first_name)==0)
-			{
-				flag=1;
-				patient_object.Display();
-			}
-			file_object.read((char*)&patient_object,sizeof(patient_object));	
-	   	}
-	   	file_object.close();
-		}
-		
 		
 	   if(flag==0)
 	   {
@@ -374,120 +515,6 @@ using namespace std;
 	}
 	 
 
-	 //search using lastname
-	void searchlName(int option)
-	{
-	 	int flag=0;
-	 	char name[100];
-	 	char temp[100];
-		cout<<"Enter Patients Last Name :";
-		cin>>name;
-				
-		cout<<"         Patients Details";
-			
-	   	ifstream file_object;
-	   	if(option == 1 ||option==3)
-	   	{
-	  		file_object.open("Active_patients.dat",ios::in);
-	   		file_object.seekg(0);
-	  
-		    cout<<endl;
-	   		file_object.read((char*)&patient_object,sizeof(patient_object));
-			while(!file_object.eof())
-	   		{
-	   			strcpy(temp,upper_case(name));
-	   			strcpy(patient_object.last_name,upper_case(patient_object.last_name));
-	   			if(strcmp(temp,patient_object.last_name)==0)
-				{	
-					flag=1;
-					patient_object.Display();
-			   	
-				}
-			file_object.read((char*)&patient_object,sizeof(patient_object));	
-	   		}
-	   		file_object.close();
-		}
-			
-		if(option == 2 ||option ==3)
-	   	{
-	   		file_object.open("Discharged_patients.dat",ios::in);
-	   		file_object.seekg(0); 
-	   		cout<<endl;
-	   		file_object.read((char*)&patient_object,sizeof(patient_object));
-			while(!file_object.eof())
-	   		{
-	   			strcpy(temp,upper_case(name));
-	   			strcpy(patient_object.last_name,upper_case(patient_object.last_name));
-	   			if(strcmp(temp,patient_object.last_name)==0)
-				{
-				flag=1;
-				patient_object.Display();
-				}
-				file_object.read((char*)&patient_object,sizeof(patient_object));	
-	   		}
-	   		file_object.close();
-		}
-		
-	   if(flag==0)
-	   {
-	   	cout<<"Sorry No patient with Last name "<<name<<endl;
-	   }
-	 	
-	 }
-	
-	
-	void searchBg(int option)
-	{
-		int flag=0;
-	 	int input; //stores input for blood group
-		input=blood();
-			
-	   	ifstream file_object;
-	   	if(option == 1 ||option==3)
-	   	{
-	   	file_object.open("Active_patients.dat",ios::in);
-	   	file_object.seekg(0);
-	   	cout<<endl;
-	   	file_object.read((char*)&patient_object,sizeof(patient_object));
-		while(!file_object.eof())
-		{
-	   		if(input==patient_object.blood_group)
-			{
-				flag=1;
-				patient_object.Display();
-			   	
-			}
-			file_object.read((char*)&patient_object,sizeof(patient_object));	
-	   	}
-		   	file_object.close();
-		}
-		
-		
-		if(option == 2 ||option ==3)
-	   	{
-	   		file_object.open("Discharged_patients.dat",ios::in);
-	   		file_object.seekg(0);
-	   		cout<<endl;
-	   		file_object.read((char*)&patient_object,sizeof(patient_object));
-			while(!file_object.eof())
-	  		{
-		   	if(input==patient_object.blood_group)
-			{
-				flag=1;
-				patient_object.Display();		   	
-			}
-			file_object.read((char*)&patient_object,sizeof(patient_object));	
-	   		}
-	   		file_object.close();
-		}
-		
-		
-	   if(flag==0)
-	   {
-	   	cout<<"Sorry No patient with Blood Group "<<input<<endl;
-	   }
-	 	
-	 }
 	
 	
 	
@@ -595,55 +622,9 @@ using namespace std;
 	 }while(op!=7);
 	 
 	}
-	 	
-		
-	 //Display function	
-	 void Patient:: Display()
-	 {
-	 	cout<<"________________________________________________________________________";
-	 	cout<<endl<<"---------------------------------------------------------";
-	   	cout<<endl<<"     	  Patient Details\n";
-	   	cout<<"---------------------------------------------------------";
-	 	cout<<endl<<"\tPatient ID: "<<this->id;
-	   	cout<<endl<<"\tPatient Name: "<<this->first_name<<" "<<this->last_name;
-	   	cout<<endl<<"\tPatient age: "<<this->age;
-	   	cout<<endl<<"\tPatients Blood Group: ";
-	  	bg_finder(this->blood_group);
-	  	
-	  	cout<<endl<<"\tPurpose of Visit: ";
-	  	p_finder(this->department);
-		
-	  
-	   cout<<endl<<"\tDate and Time of Arrival: "<<this->date_time;
-	
-	   
-	   cout<<"\tPresent Status: ";
-	   
-	   if(this->is_in==1){
-	   	cout<<"In the Hospital";
-	   }
-	   else
-	   {
-	   	cout<<"Discharged";
-	   	cout<<endl<<"\tDate and Time of Discharge: "<<this->discharge_date;
-	   }
-	   	cout<<endl<<"---------------------------------------------------------";
-	   	cout<<endl<<"       		 Contact Details\n";
-	   	cout<<"---------------------------------------------------------";
-	    cout<<endl<<"\tMobile Number: "<<this->mobile_number;
-	   	cout<<endl<<"\tEmail: "<<this->mail_id;
-	   	cout<<endl<<"\tAddress: "<<this->address;
-	    cout<<endl<<"\tState : "<<this->state;
-	    cout<<endl<<"\tCity : "<<this->city;
-	    cout<<endl<<"--------------------------------------------------------";
-	   
-	   cout<<"\n________________________________________________________________________";
-	   	
-	    cout<<endl;
-	   
-	   cout<<endl;
 
-	 }
+		
+	 
 	 
 	 
 	 
@@ -772,30 +753,13 @@ using namespace std;
 	//Search logic 
 	int Patient::searchData(int option)
 	{
-		cout<<"Search using -"<<endl;
-		int opt;
-		cout<<"1. Id "<<endl;
-		cout<<"2. Patient First Name " <<endl;
-		cout<<"3. Patient Last Name " <<endl;
-		cout<<"4. Blood Group " <<endl;
+		int input,type,field;
+		field=getFields();
+		type=typeSearch();
 		
-		cin>>opt;
-		switch(opt)
-		{
-			case 1:
-				searchId(option);
-				break;
-			case 2:
-				searchfName(option);
-				break;
-			case 3:
-				searchlName(option);
-				break;
-			case 4:
-				searchBg(option);
-				break;
-				
-		}
+		AdvanceSearch(type,option,field);
+		
+		
 	} 
 	 
 	 
@@ -936,13 +900,7 @@ using namespace std;
 	
 
 	
-	void displayVector()
-	{
-		for(int i=0;i<sorted.size();i++)
-		{
-			sorted[i].Display();
-		}
-	}
+	
 	
 	
 	
@@ -1055,6 +1013,23 @@ using namespace std;
 			}
 			break;
 			
+			case 6:
+			if(order==1)
+			{
+	     		sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      				return lhs.blood_group < rhs.blood_group;
+   				});
+			}
+			else
+			{
+				sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
+				{
+      				return rhs.blood_group > rhs.blood_group;
+   				});
+			}
+			break;
+			
 			
 			case 7:
 				if(order==1)
@@ -1146,7 +1121,7 @@ using namespace std;
 			cout<<endl<<"Enter Option";
 		    cout<<endl<<"1. Add  New Patient information";
 	   		cout<<endl<<"2. Display Patient details ";
-	    	cout<<endl<<"3. Search details ";
+	    	cout<<endl<<"3. Advanced Search details ";
 	    	cout<<endl<<"4. Delete details ";
 	    	cout<<endl<<"5. Edit Data";
 	    	cout<<endl<<"6. Patient Exits";
@@ -1166,6 +1141,7 @@ using namespace std;
 	 				cout<<endl<<"1. Active Patients "<<endl<<"2. Discharged Patients "<<endl<<"3. ALL patients";
 	 				cin>>opt;	
 	 				system("cls");
+	 				displayHeader();
 					patient_object.output_data(opt);
 	 				break;
 	 			case 3:
