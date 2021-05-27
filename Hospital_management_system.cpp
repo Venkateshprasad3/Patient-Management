@@ -10,7 +10,7 @@
 using namespace std;
 
 
-	//Contact Detail
+	//Contact Details
 	class Contact
 	{
 		public:
@@ -86,19 +86,19 @@ using namespace std;
 		{
 		public:
     
-    		char first_name[100];     //patient first Name
-    		char last_name[100];	 //patient last name
-    		int age;			 //patient age
-    		int department;		//department
+    	char first_name[100];     //patient first Name
+    	char last_name[100];	 //patient last name
+    	int age;			 //patient age
+    	int department;		//department
  		int id;				//Auto incremental Id
  		int is_in;			//in the hospital or discharged
  		int blood_group;	//blood group id
  		char date_time[100];//Admit date time
-    		char discharge_date[100];//discharge date time
+    	char discharge_date[100];//discharge date time
     
     
     
-    		Patient()				//constructor
+    	Patient()				//constructor
    		{
     		is_in=1;
     		strcpy(this->discharge_date," ");
@@ -280,6 +280,8 @@ using namespace std;
 	 	this->department=d; 		
 	}
 	
+
+	
 	int Patient::setAll()
 	{
 		this->setfName();
@@ -314,66 +316,7 @@ using namespace std;
 	
 	//Searchers
 	 //Search using Id
-	void searchId(int option)
-	{
-	 	int flag=0;
-	 	int input;
-		cout<<"Enter Id :";
-		cin>>input;
-		if(option ==1 || option ==3)
-		{
-		
-				
-	   ifstream file_object;
-	   file_object.open("Active_patients.dat",ios::in);
-	   file_object.seekg(0);
-	   cout<<"         Patients Details";
-	   cout<<endl;
-	   file_object.read((char*)&patient_object,sizeof(patient_object));
-		while(!file_object.eof())
-	   {
-	   	
-	   	if(patient_object.id==input)
-		{
-			patient_object.Display();
-			flag=1;
-			   	
-		}
-		file_object.read((char*)&patient_object,sizeof(patient_object));	
-	   }
-	}
 	
-	
-		if(option ==2 || option ==3)
-		{
-		
-				
-	   ifstream file_object;
-	   file_object.open("Discharged_patients.dat",ios::in);
-	   file_object.seekg(0);
-	   cout<<"         Patients Details";
-	   cout<<endl;
-	   file_object.read((char*)&patient_object,sizeof(patient_object));
-		while(!file_object.eof())
-	   {
-	   	
-	   	if(patient_object.id==input)
-		{
-			patient_object.Display();
-			flag=1;
-			   	
-		}
-		file_object.read((char*)&patient_object,sizeof(patient_object));	
-	   }
-	}
-	
-	   if(flag==0)
-	   {
-	   	cout<<"Incorrect Patient Id: "<<input;
-	   }
-	 	
-	 }
-	 
 
 	 string global_input;
 	 
@@ -509,7 +452,7 @@ using namespace std;
 		
 	   if(flag==0)
 	   {
-	   		cout<<"Sorry No patient with first name "<<input<<endl;
+	   		cout<<"Sorry ";
 	   }
 	 	
 	}
@@ -574,18 +517,11 @@ using namespace std;
 	 int Patient :: Edit()
 	 {
 	 	int op;
-	 	do{
-	 	cout<<endl<<" Enter option "<<endl;
-	 	cout<<"1. First Name"<<endl;
-	 	cout<<"2. Last Name"<<endl;
-	 	cout<<"3. Blood group"<<endl;
-	 	cout<<"4. Age"<<endl;
-	 	cout<<"5. Contact details"<<endl;
-	 	cout<<"6. All"<<endl;
-	 	cout<<"7. Exit";
-	 		
-	 	cin>>op;
-	 		switch(op)
+	 	do
+	 	{
+	 	op=getEditFields();
+	 	
+	 	switch(op)
 	 	{
 	 		case 1:
 			setfName();
@@ -596,30 +532,52 @@ using namespace std;
 			break;
 			
 			case 3:
-			setBloodgroup();
+			setAge();
+		
 			break;
 			
 			case 4:
-			setAge();
+			setBloodgroup();
 			break;
-				
-			case 5:
-			setEmail();
-			setMobileNumber();
 			
+			case 5:
 			setState();
+
+			case 6:
 			setCity();
+			break;
+			
+				
+			case 7:
+			setMobileNumber();
+			break;
+			
+			case 8:
 			setAddress();
 			break;
 			
-				
-			case 6:
-			setAll();
+			case 9:
+			setEmail();
+			break;
+			
+			case 10:
+			setfName();
+			setlName();
+			setAge();
+			setBloodgroup();
+			 setEmail();
+	    	setMobileNumber();
+	    	setState();
+	    	setCity();
+	    	setAddress();
 			break;
 			
 			
+			
+			
+				
 		}
-	 }while(op!=7);
+	} while(op != 11 );
 	 
 	}
 
@@ -768,45 +726,64 @@ using namespace std;
 	 
 	int Patient::deleteData(int d)
 	{
-		int flag=0,flage=0;
-	
+		int option=1;
+		getData(option);
 		ofstream file_object;
-		file_object.open("new.dat",ios::app);
-		fstream file;
-		file.open("Active_patients.dat",ios::in);
-		file.read((char*)&patient_object,sizeof(patient_object));
-		while(!file.eof())
+		file_object.open("Active_patients.dat",ios::out);
+		for(int i=0;i<sorted.size();i++)
 		{
-			if(d==patient_object.id)
+			if(sorted[i].id==d)
 			{
-			flage=1;
-			}
-		
-			if(d!=patient_object.id || flag==1)
-			{	
-				file_object.write((char*)&patient_object,sizeof(patient_object));
+			//sorted[i].Display();
+			continue;
 			}
 			else
 			{
-				flag=1;
+				
+				file_object.write((char *)&sorted[i],sizeof(patient_object));
 			}
-			file.read((char*)&patient_object,sizeof(patient_object));
 		}
-	
 		file_object.close();
-		file.close();
-	
-	   
-		if(flage==1)
-		{	
-			remove("Active_patients.dat");
-			rename("new.dat","Active_patients.dat");
-	
-		}
-		else
-		{
-			cout<<"Incorrect Patient Id";
-		}
+		
+//		int flag=0,flage=0;
+//	
+//		ofstream file_object;
+//		file_object.open("new.dat",ios::app);
+//		fstream file;
+//		file.open("Active_patients.dat",ios::in);
+//		file.read((char*)&patient_object,sizeof(patient_object));
+//		while(!file.eof())
+//		{
+//			if(d==patient_object.id)
+//			{
+//			flage=1;
+//			}
+//		
+//			if(d!=patient_object.id || flag==1)
+//			{	
+//				file_object.write((char*)&patient_object,sizeof(patient_object));
+//			}
+//			else
+//			{
+//				flag=1;
+//			}
+//			file.read((char*)&patient_object,sizeof(patient_object));
+//		}
+//	
+//		file_object.close();
+//		file.close();
+//	
+//	   
+//		if(flage==1)
+//		{	
+//			remove("Active_patients.dat");
+//			rename("new.dat","Active_patients.dat");
+//	
+//		}
+//		else
+//		{
+//			cout<<"Incorrect Patient Id";
+//		}
 	}
 	
 	
@@ -814,31 +791,34 @@ using namespace std;
 	
 	int Patient::editData()
 	{
-		int flag=0;
 		int input;
-		cout<<"Enter id :";
-		cin>>input;
-		
-	    fstream file_object;
-		file_object.open("Active_patients.dat",ios::in |ios ::app);
+	int pos;
+	cout<<"id :";
+	cin>>input;
+	fstream f;
 	
-		while(file_object.read((char*)&patient_object,sizeof(patient_object)))
+	
+	f.open("Active_patients.dat",ios::in | ios::out );
+	f.seekg(0);
+	pos = f.tellg();
+	while(f.read((char *)&patient_object,sizeof(patient_object)))
+	{
+		
+		if(patient_object.id==input)
 		{
-			if(input==patient_object.id)
-			{
-				patient_object.Display();
-				file_object.seekp(1);
-				
-				patient_object.Edit();
-				flag=1;	
-				file_object.write((char*)&patient_object,sizeof(patient_object));
-				file_object.close();
-				patient_object.deleteData(input);
-				break;
-			}
+			cout<<patient_object.id;
+			
+			f.seekp(pos);
+			//patient_object.age=90;
+			patient_object.Edit();
+			f.write((char *)&patient_object,sizeof(patient_object));	 	
+			break;
+		}
+		pos = f.tellg();
 		
-		}		
 		
+	}
+	f.close();
 	} 
 	
 	int Patient::oldPatient()
@@ -925,6 +905,7 @@ using namespace std;
 		
 		
 		
+		
 		switch(field)
 		{
 			case 1:
@@ -949,14 +930,14 @@ using namespace std;
 			{	
      			sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
 				{
-				    return strcmp(lhs.first_name,rhs.first_name);
+				    return upper_case(lhs.first_name)<upper_case(rhs.first_name);
    				});
 			}
 			else
 			{
 				sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
 				{
-      			return strcmp(rhs.first_name,lhs.first_name);
+      			return upper_case(lhs.first_name)>upper_case(rhs.first_name);
    				});
 			}
 			break;
@@ -968,14 +949,14 @@ using namespace std;
 			{
 	     		sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
 				{
-      				return strcmp(lhs.last_name,rhs.last_name);
+      				return upper_case(lhs.last_name)<upper_case(rhs.last_name);
    				});
 			}
 			else
 			{
 				sort(sorted.begin(), sorted.end(), [](const Patient& lhs, const Patient& rhs) 
 				{
-      			return strcmp(rhs.last_name,lhs.last_name);
+      			return upper_case(lhs.last_name)>upper_case(rhs.last_name);
    				});
 			}
 			break;
